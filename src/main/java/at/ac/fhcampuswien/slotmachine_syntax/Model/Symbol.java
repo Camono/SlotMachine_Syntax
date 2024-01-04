@@ -2,21 +2,31 @@ package at.ac.fhcampuswien.slotmachine_syntax.Model;
 
 import javafx.scene.image.Image;
 
-public class Symbol {
+/**
+ * This class is used for the displayed symbols of the slot machine.
+ * each variable represents a logic for the spinning wheels including appearChances,
+ * multipliers and images.
+ * Lower worth symbol types have higher chances to be rolled, where as better ones like Lugner
+ * are harder to get.
+ */
 
+public class Symbol {
+    //variables
     private Image image;
     private SymbolType symbolType;
-    private double appearChance;
-    private int multiplierX3;
-    private int multiplierX4;
-    private int multiplierX5;
+    private double appearFactor;
+    private double multiplierX3;
+    private double multiplierX4;
+    private double multiplierX5;
     private boolean isWild;
     private boolean isFreeSpin;
 
-    public Symbol(Image image, SymbolType symbolType, double appearChance, int multiplierX3, int multiplierX4, int multiplierX5, boolean isWild, boolean isFreeSpin) {
+
+    //constructor
+    public Symbol(Image image, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
         this.image = image;
         this.symbolType = symbolType;
-        this.appearChance = appearChance;
+        this.appearFactor = appearChance;
         this.multiplierX3 = multiplierX3;
         this.multiplierX4 = multiplierX4;
         this.multiplierX5 = multiplierX5;
@@ -24,6 +34,7 @@ public class Symbol {
         this.isFreeSpin = isFreeSpin;
     }
 
+    //getter
     public Image getImage() {
         return image;
     }
@@ -32,19 +43,19 @@ public class Symbol {
         return symbolType;
     }
 
-    public double getAppearChance() {
-        return appearChance;
+    public double getAppearFactor() {
+        return appearFactor;
     }
 
-    public int getMultiplierX3() {
+    public double getMultiplierX3() {
         return multiplierX3;
     }
 
-    public int getMultiplierX4() {
+    public double getMultiplierX4() {
         return multiplierX4;
     }
 
-    public int getMultiplierX5() {
+    public double getMultiplierX5() {
         return multiplierX5;
     }
 

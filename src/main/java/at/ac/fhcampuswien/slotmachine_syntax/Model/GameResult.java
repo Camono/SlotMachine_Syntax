@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class GameResult {
-
+    //initialize variables
     private int profit;
     private int newBalance;
     private List<Symbol> symbols;
