@@ -5,22 +5,22 @@ import java.util.List;
 
 public class GameResult {
     //initialize variables
-    private int profit;
-    private int newBalance;
+    private double profit;
+    private double newBalance;
     private List<Symbol> symbols;
 
 
-    public GameResult(int profit, int newBalance, List<Symbol> symbols) {
+    public GameResult(double profit, double newBalance, List<Symbol> symbols) {
         this.profit = profit;
         this.newBalance = newBalance;
         this.symbols = symbols;
     }
 
-    public int getProfit() {
+    public double getProfit() {
         return profit;
     }
 
-    public int getNewBalance() {
+    public double getNewBalance() {
         return newBalance;
     }
 
