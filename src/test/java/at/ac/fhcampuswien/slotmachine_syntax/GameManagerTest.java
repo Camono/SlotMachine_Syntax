@@ -5,7 +5,6 @@ import at.ac.fhcampuswien.slotmachine_syntax.Controller.StaticGamedata;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
-import at.ac.fhcampuswien.slotmachine_syntax.util.Tuple;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -37,55 +36,32 @@ public class GameManagerTest {
     @Test
     public void testMoneyReturn() {
         GameManager manager = new GameManager(START_CREDITS);
-        List<Tuple<Symbol, Long>> spinRecordList = new ArrayList<>();
 
         double moneyFromWins = 0.0;
+        int winningSpins = 0;
 
-        GameResult last = new GameResult(0.0, 0.0, null);
+        GameResult lastGameResult = new GameResult(0.0, 0.0, null);
         for (int i = 0; i < SIMULATE_SPINS_AMOUNT; i++) {
             List<Symbol> spinResult = manager.createSpinResult();
             GameResult gameResult = manager.calculateWinnings(spinResult);
             moneyFromWins = moneyFromWins + gameResult.getProfit();
-            //only adds the winning spins to the record list
-            addToList(spinResult, spinRecordList);
-            last = gameResult;
+
+            if (gameResult.getProfit() > 0.0) {
+                winningSpins++;
+            }
+            lastGameResult = gameResult;
         }
 
         int totalBetSum = TEST_BET_AMOUNT * SIMULATE_SPINS_AMOUNT;
         System.out.println("Runden gespielt: " + SIMULATE_SPINS_AMOUNT);
-        System.out.println("Runden gewonnen: " + spinRecordList.size());
+        System.out.println("Runden gewonnen: " + winningSpins);
         System.out.println("Gesamter Einsatz: " + totalBetSum);
-        System.out.println("Kontostand: " + last.getNewBalance());
+        System.out.println("Kontostand: " + lastGameResult.getNewBalance());
+
+        //der Kontostand nach 10000 (bzw SIMULATE_SPINS_AMOUNT) Spielen darf nie höher sein als davor -> House Edge
+        boolean loser = lastGameResult.getNewBalance() < totalBetSum;
+        assertTrue(loser);
     }
-
-
-    private void addToList(List<Symbol> spinResult, List<Tuple<Symbol, Long>> spinRecordList) {
-        if (spinResult == null) {
-            return;
-        }
-
-        Symbol firstSymbol = spinResult.get(0);
-
-        if (!spinResult.get(1).equals(firstSymbol) && !spinResult.get(1).getSymbolType().equals(SymbolType.WILD)) {
-            return;
-        }
-
-        int counter = 0;
-
-        for (int i = 1; i < spinResult.size(); i++) {
-            if (spinResult.get(i).equals(firstSymbol) || spinResult.get(i).isWild()) {
-                counter++;
-            }
-        }
-
-        if (counter > 1) {
-            Tuple<Symbol, Long> result = new Tuple<>(firstSymbol, Long.valueOf(counter + 1));
-            spinRecordList.add(result);
-        }
-    }
-
-
-
 
     @Test
     public void testRandomDistribution() {
