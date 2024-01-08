@@ -1,6 +1,7 @@
 package at.ac.fhcampuswien.slotmachine_syntax;
 
 import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
+import at.ac.fhcampuswien.slotmachine_syntax.Controller.StaticGamedata;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.util.Tuple;
@@ -8,6 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameManagerTest {
 
@@ -52,7 +56,7 @@ public class GameManagerTest {
         System.out.println("Runden gewonnen: " + spinRecordList.size());
         System.out.println("Gesamter Einsatz: " + totalBetSum);
         System.out.println("Gesamtgewinn: " + moneyFromWins);
-        System.out.println("Konotstand Änderung: " + (moneyFromWins - totalBetSum));
+        System.out.println("Kontostand Änderung: " + (moneyFromWins - totalBetSum));
     }
 
 
@@ -82,11 +86,12 @@ public class GameManagerTest {
     }
 
 
+
+
     @Test
     public void testRandomDistribution() {
         List<Symbol> symbols = new ArrayList<>();
         GameManager manager = new GameManager(500);
-
 
         //randomly pick symbols up to RANDOM_DISTRIBUTION_QUANTITY
         for (int i = 0; i < RANDOM_DISTRIBUTION_QUANTITY; i++) {
@@ -105,6 +110,50 @@ public class GameManagerTest {
         //faktor um Symbol Erscheinung in % zu ermitteln
         double factor = RANDOM_DISTRIBUTION_QUANTITY / 100.0;
 
+        //Toleranz der Abweichung
+        double maxDeviation = 0.25;
+
+        //countU1 must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countU1 / factor >= StaticGamedata.U1.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countU1 / factor <= StaticGamedata.U1.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countU6 must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countU6 / factor >= StaticGamedata.U6.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countU6 / factor <= StaticGamedata.U6.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countREDBULL must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countREDBULL / factor >= StaticGamedata.REDBULL.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countREDBULL / factor <= StaticGamedata.REDBULL.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countMARLBORO must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countMARLBORO / factor >= StaticGamedata.MARLBORO.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countMARLBORO / factor <= StaticGamedata.MARLBORO.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countGIS must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countGIS / factor >= StaticGamedata.GIS.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countGIS / factor <= StaticGamedata.GIS.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countLUGNER must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countLUGNER / factor >= StaticGamedata.LUGNER.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countLUGNER / factor <= StaticGamedata.LUGNER.getAppearFactor() * 100 + maxDeviation)
+        );
+
+        //countWILD must appear within their appearChance +/- 0.25%
+        assertAll(
+                () -> assertTrue(countWILD / factor >= StaticGamedata.WILD.getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countWILD / factor <= StaticGamedata.WILD.getAppearFactor() * 100 + maxDeviation)
+        );
 
         System.out.println("U1: " + (double) countU1 / factor + "%");
         System.out.println("U6: " + (double) countU6 / factor + "%");
@@ -115,5 +164,4 @@ public class GameManagerTest {
         System.out.println("WILD: " + (double) countWILD / factor + "%");
 
     }
-
 }
