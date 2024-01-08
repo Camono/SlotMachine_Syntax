@@ -10,11 +10,11 @@ public enum SymbolType {
 
     U1,
     U6,
-    RedBull,
-    Marlboro,
-    Lugner,
+    RED_BULL,
+    MARLBORO,
+    LUGNER,
     GIS,
-    FeatureSymbol,
+    FEATURE_SYMBOL,
     WILD
 
 

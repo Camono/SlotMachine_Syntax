@@ -2,6 +2,8 @@ package at.ac.fhcampuswien.slotmachine_syntax.Model;
 
 import javafx.scene.image.Image;
 
+import java.util.Objects;
+
 /**
  * This class is used for the displayed symbols of the slot machine.
  * each variable represents a logic for the spinning wheels including appearChances,
@@ -65,5 +67,17 @@ public class Symbol {
 
     public boolean isFreeSpin() {
         return isFreeSpin;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (!(obj instanceof Symbol)) {
+            return false;
+        }
+        Symbol symbolToCompare = (Symbol) obj;
+        return Objects.equals(symbolToCompare, this.symbolType);
     }
 }
