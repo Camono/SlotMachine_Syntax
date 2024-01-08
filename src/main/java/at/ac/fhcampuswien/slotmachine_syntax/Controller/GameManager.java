@@ -11,14 +11,17 @@ public class GameManager {
     private double balance;
     private List<Integer> betRange;
 
+    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 2 mal erscheint
+    private final double DEFAULT_CHANCE_OF_X3 = 0.2;
+    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 3 mal erscheint
 
+    private final double DEFAULT_CHANCE_OF_X4 = 0.15;
+    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 4 mal erscheint
 
     //constructors
-
-
     public GameManager(double balance) {
         this.balance = balance;
-        this.betRange = Arrays.asList(1,2,5,10,20,50,100); //not part of constructor as it's hardcoded during runtime init.
+        this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100); //not part of constructor as it's hardcoded during runtime init.
     }
 
 
@@ -47,15 +50,21 @@ public class GameManager {
 
         //braucht extra logik für wild
         if (!firstSymbol.isWild()) {
-            double chanceOfX3 = 1/firstSymbol.getMultiplierX3()*0.95;
+            //Chancen auf Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
+            //"Schlechte" Symbole hätten eine zu hohe Chance auf Gewinn wegen ihrem schlechten Multiplikator
+            //Deshalb gibt es eigene Berechnungen für X3 und X4
+            double chanceOfX3 = 1 / firstSymbol.getMultiplierX3() * 0.70;
             if (firstSymbol.getMultiplierX3() < 1.6) {
-                chanceOfX3 = 0.38;
+                chanceOfX3 = DEFAULT_CHANCE_OF_X3;
             }
-            double chanceOfX4 = 1/firstSymbol.getMultiplierX4()*0.7;
+            double chanceOfX4 = 1 / firstSymbol.getMultiplierX4() * 0.55;
             if (firstSymbol.getMultiplierX4() < 1) {
-                chanceOfX4 = 0.2;
+                chanceOfX4 = DEFAULT_CHANCE_OF_X4;
             }
-            double chanceOfX5 = 1/firstSymbol.getMultiplierX5()*0.8;
+
+            //Die Chance auf Fullscreen ist abhängig vom möglichen Auszahlungsmultiplikator * 0.8
+            //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat darf die Chance dass diese Kombination eintritt nicht 1/100 = 1% sein sondern muss geringer sein -> house edge
+            double chanceOfX5 = 1 / firstSymbol.getMultiplierX5() * 0.8;
 
             Random random = new Random();
             double randomValue = random.nextDouble();
@@ -89,6 +98,7 @@ public class GameManager {
 
     public Symbol pickRandomSymbol(Symbol symbolToExclude) {
         List<Symbol> elements = new ArrayList<>(StaticGamedata.getAllSymbols());
+        //Wenn wir ein Symbol nicht mehr zufällig generieren wollen für den Fall eines Lose
         if (symbolToExclude != null) {
             elements.remove(symbolToExclude);
         }
