@@ -13,6 +13,7 @@ public class GameManagerTest {
 
     private final Integer TEST_BET_AMOUNT = 1;
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
+    private final Integer RANDOM_DISTRIBUTION_QUANTITY = 500000;
 
     @Test
     public void testMoneyReturn() {
@@ -78,6 +79,41 @@ public class GameManagerTest {
             Tuple<Symbol, Long> result = new Tuple<>(firstSymbol, Long.valueOf(counter + 1));
             spinRecordList.add(result);
         }
+    }
+
+
+    @Test
+    public void testRandomDistribution() {
+        List<Symbol> symbols = new ArrayList<>();
+        GameManager manager = new GameManager(500);
+
+
+        //randomly pick symbols up to RANDOM_DISTRIBUTION_QUANTITY
+        for (int i = 0; i < RANDOM_DISTRIBUTION_QUANTITY; i++) {
+            symbols.add(manager.pickRandomSymbol(null));
+        }
+
+        //count every symbol with streams
+        long countU1 = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.U1).count();
+        long countU6 = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.U6).count();
+        long countREDBULL = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.RED_BULL).count();
+        long countMARLBORO = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.MARLBORO).count();
+        long countGIS = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.GIS).count();
+        long countLUGNER = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.LUGNER).count();
+        long countWILD = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.WILD).count();
+
+        //faktor um Symbol Erscheinung in % zu ermitteln
+        double factor = RANDOM_DISTRIBUTION_QUANTITY / 100.0;
+
+
+        System.out.println("U1: " + (double) countU1 / factor + "%");
+        System.out.println("U6: " + (double) countU6 / factor + "%");
+        System.out.println("REDBULL: " + (double) countREDBULL / factor + "%");
+        System.out.println("MARLBORO: " + (double) countMARLBORO / factor + "%");
+        System.out.println("GIS: " + (double) countGIS / factor + "%");
+        System.out.println("LUGNER: " + (double) countLUGNER / factor + "%");
+        System.out.println("WILD: " + (double) countWILD / factor + "%");
+
     }
 
 }

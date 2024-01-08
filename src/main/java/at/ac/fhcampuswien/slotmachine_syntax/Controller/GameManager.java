@@ -7,8 +7,9 @@ import java.util.*;
 public class GameManager {
 
     //variables
-    private int bet;
+    private int currentBetIndex;
     private double balance;
+
     private List<Integer> betRange;
 
     //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 2 mal erscheint
@@ -22,6 +23,7 @@ public class GameManager {
     public GameManager(double balance) {
         this.balance = balance;
         this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100); //not part of constructor as it's hardcoded during runtime init.
+        this.currentBetIndex = 0;
     }
 
 
@@ -33,14 +35,21 @@ public class GameManager {
      * the below methods are used to in/decrease your current bet to the next higher/lower one.
      * e.g. from 10 to 5 credits per spin or vice versa.
      */
-    public int decreaseBet() {
 
-        return 0;
+    public int decreaseBet() {
+        if (currentBetIndex > 0) {
+            currentBetIndex--;
+        }
+
+        return betRange.get(currentBetIndex);
     }
 
     public int increaseBet() {
+        if (currentBetIndex < betRange.size() -1) {
+            currentBetIndex++;
+        }
 
-        return 0;
+        return betRange.get(currentBetIndex);
     }
 
     public List<Symbol> createSpinResult() {
