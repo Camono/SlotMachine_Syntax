@@ -25,7 +25,7 @@ public class StaticGamedata {
 
     public static List<Symbol> getAllSymbols() {
 
-        return Arrays.asList(U1, U6, REDBULL, MARLBORO, GIS, LUGNER, FEATURESYMBOL, WILD);
+        return Arrays.asList(U1, U6, REDBULL, MARLBORO, GIS, LUGNER, WILD);
     }
 
 }

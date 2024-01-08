@@ -56,72 +56,79 @@ public class GameManager {
 
     public List<Symbol> createSpinResult() {
         List<Symbol> result = new ArrayList<>();
-        Symbol firstSymbol = pickRandomSymbol(null);
+        //erstes Symbol darf nicht wild sein (vorerst)
+        Symbol firstSymbol = pickRandomSymbol(List.of(StaticGamedata.WILD));
         result.add(firstSymbol);
 
-        //braucht extra logik für wild
-        if (!firstSymbol.isWild()) {
-            //Chancen auf Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
-            //"Schlechte" Symbole hätten eine zu hohe Chance auf Gewinn wegen ihrem schlechten Multiplikator
-            //Deshalb gibt es eigene Berechnungen für X3 und X4
-            double chanceOfX3 = 1 / firstSymbol.getMultiplierX3() * 0.70;
-            if (firstSymbol.getMultiplierX3() < 1.6) {
-                chanceOfX3 = DEFAULT_CHANCE_OF_X3;
-            }
-            double chanceOfX4 = 1 / firstSymbol.getMultiplierX4() * 0.55;
-            if (firstSymbol.getMultiplierX4() < 1) {
-                chanceOfX4 = DEFAULT_CHANCE_OF_X4;
-            }
-
-            //Die Chance auf Fullscreen ist abhängig vom möglichen Auszahlungsmultiplikator * 0.8
-            //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat darf die Chance dass diese Kombination eintritt nicht 1/100 = 1% sein sondern muss geringer sein -> house edge
-            double chanceOfX5 = 1 / firstSymbol.getMultiplierX5() * 0.8;
-
-            Random random = new Random();
-            double randomValue = random.nextDouble();
-
-            if (chanceOfX5 > randomValue) {
-                //add 4 more same symbols to the spin result
-                result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, firstSymbol));
-                return result;
-            }
-
-            if (chanceOfX4 > randomValue) {
-                //add 3 more same symbols and 1 random symbol
-                result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, pickRandomSymbol(firstSymbol)));
-                return result;
-            }
-
-            if (chanceOfX3 > randomValue) {
-                //add 2 more same symbols and 2 random symbols
-                result.addAll(Arrays.asList(firstSymbol, firstSymbol, pickRandomSymbol(firstSymbol), pickRandomSymbol(firstSymbol)));
-                return result;
-            } else {
-                //4 random symbols = no win
-                result.addAll(Arrays.asList(pickRandomSymbol(firstSymbol), pickRandomSymbol(firstSymbol), pickRandomSymbol(firstSymbol), pickRandomSymbol(firstSymbol)));
-                return result;
-            }
-
-        } else {
-            return null;
+        //Chancen auf Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
+        //"Schlechte" Symbole hätten eine zu hohe Chance auf Gewinn wegen ihrem schlechten Multiplikator
+        //Deshalb gibt es eigene Berechnungen für X3 und X4
+        double chanceOfX3 = 1 / firstSymbol.getMultiplierX3() * 0.70;
+        if (firstSymbol.getMultiplierX3() < 1.6) {
+            chanceOfX3 = DEFAULT_CHANCE_OF_X3;
         }
-    }
-
-    public Symbol pickRandomSymbol(Symbol symbolToExclude) {
-        List<Symbol> elements = new ArrayList<>(StaticGamedata.getAllSymbols());
-        //Wenn wir ein Symbol nicht mehr zufällig generieren wollen für den Fall eines Lose
-        if (symbolToExclude != null) {
-            elements.remove(symbolToExclude);
+        double chanceOfX4 = 1 / firstSymbol.getMultiplierX4() * 0.55;
+        if (firstSymbol.getMultiplierX4() < 1) {
+            chanceOfX4 = DEFAULT_CHANCE_OF_X4;
         }
 
-        Collections.shuffle(elements);
+        //Die Chance auf Fullscreen ist abhängig vom möglichen Auszahlungsmultiplikator * 0.8
+        //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat darf die Chance dass diese Kombination eintritt nicht 1/100 = 1% sein sondern muss geringer sein -> house edge
+        double chanceOfX5 = 1 / firstSymbol.getMultiplierX5() * 0.8;
 
         Random random = new Random();
         double randomValue = random.nextDouble();
 
+        if (chanceOfX5 > randomValue) {
+            //add 4 more same symbols to the spin result
+            result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, firstSymbol));
+            return result;
+        }
+
+        if (chanceOfX4 > randomValue) {
+            //add 3 more same symbols and 1 random symbol
+            //an der letzten Stelle darf kein Gewinnsymbol oder Wildsymbol mehr generiert werden
+            //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
+            result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD))));
+            return result;
+        }
+
+        if (chanceOfX3 > randomValue) {
+            //add 2 more same symbols and 2 random symbols
+            //an der letzten und vorletzten Stelle darf kein Gewinnsymbol oder Wildsymbol mehr generiert werden
+            //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
+            result.addAll(Arrays.asList(firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD))));
+            return result;
+        } else {
+            //4 random symbols = no win
+            //das zweite zufällig generierte symbol darf weder wild noch das erste vorkommende Symbol sein
+            //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
+            result.addAll(Arrays.asList(pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList())));
+            return result;
+        }
+
+    }
+
+    public Symbol pickRandomSymbol(List<Symbol> symbolsToExclude) {
+        List<Symbol> elements = new ArrayList<>(StaticGamedata.getAllSymbols());
+        //Wenn wir ein oder mehr Symbol ausschließen wollen aus der Zufallswahl
+        if (symbolsToExclude != null && !symbolsToExclude.isEmpty()) {
+            elements.removeAll(symbolsToExclude);
+        }
+
+        //Liste muss zufällig angeordnet werden
+        Collections.shuffle(elements);
+
+        //zufälliger wert von 0.0 bis 1.0 wird generiert
+        Random random = new Random();
+        double randomValue = random.nextDouble();
+
+        //die kumulative Wahrscheinlichkeit sorgt dafür das die appearChance von allen Symbolen berücksichtigt wird
         double cumulativeProbability = 0.0;
         for (Symbol symbol : StaticGamedata.getAllSymbols()) {
-            cumulativeProbability += symbol.getAppearFactor();
+            //die appearChance jedes Symbols erhöht die kumulative Wahrscheinlichkeit bis sie einen Wert erreicht der höher ist als die Random Value
+            //jene appearChance die den Ausschlag gibt ist dem Symbol zugeordnet das gewählt wird
+            cumulativeProbability = cumulativeProbability + symbol.getAppearFactor();
             if (randomValue < cumulativeProbability) {
                 return symbol;
             }
