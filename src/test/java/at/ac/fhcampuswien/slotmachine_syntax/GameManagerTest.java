@@ -2,6 +2,7 @@ package at.ac.fhcampuswien.slotmachine_syntax;
 
 import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
 import at.ac.fhcampuswien.slotmachine_syntax.Controller.StaticGamedata;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.util.Tuple;
@@ -18,45 +19,43 @@ public class GameManagerTest {
     private final Integer TEST_BET_AMOUNT = 1;
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
     private final Integer RANDOM_DISTRIBUTION_QUANTITY = 500000;
+    private final Integer START_CREDITS = 1000;
+
+    @Test
+    public void testSingleSpin() {
+        GameManager manager = new GameManager(START_CREDITS);
+        GameResult gameResult = manager.calculateWinnings(manager.createSpinResult());
+        Symbol symbol1 = gameResult.getSymbols().get(0);
+        Symbol symbol2 = gameResult.getSymbols().get(1);
+        Symbol symbol3 = gameResult.getSymbols().get(2);
+        Symbol symbol4 = gameResult.getSymbols().get(3);
+        Symbol symbol5 = gameResult.getSymbols().get(4);
+        System.out.println(symbol1.toString() + "  " + symbol2.toString() + "  " + symbol3.toString() + "  " + symbol4.toString() + "  " + symbol5.toString());
+        System.out.println(gameResult.getProfit() + " Gewinn");
+    }
 
     @Test
     public void testMoneyReturn() {
-        GameManager manager = new GameManager(500);
+        GameManager manager = new GameManager(START_CREDITS);
         List<Tuple<Symbol, Long>> spinRecordList = new ArrayList<>();
-
-        for (int i = 0; i < SIMULATE_SPINS_AMOUNT; i++) {
-            List<Symbol> spinResult = manager.createSpinResult();
-            //only adds the winning spins to the record list
-            addToList(spinResult, spinRecordList);
-        }
 
         double moneyFromWins = 0.0;
 
-        for (int i = 0; i < spinRecordList.size(); i++) {
-
-            double multiplier = 0.0;
-
-            if (spinRecordList.get(i).getSecond() == 3L) {
-                multiplier = spinRecordList.get(i).getFirst().getMultiplierX3();
-            }
-
-            if (spinRecordList.get(i).getSecond() == 4L) {
-                multiplier = spinRecordList.get(i).getFirst().getMultiplierX4();
-            }
-
-            if (spinRecordList.get(i).getSecond() == 5L) {
-                multiplier = spinRecordList.get(i).getFirst().getMultiplierX4();
-            }
-
-            moneyFromWins = moneyFromWins + (TEST_BET_AMOUNT * multiplier);
+        GameResult last = new GameResult(0.0, 0.0, null);
+        for (int i = 0; i < SIMULATE_SPINS_AMOUNT; i++) {
+            List<Symbol> spinResult = manager.createSpinResult();
+            GameResult gameResult = manager.calculateWinnings(spinResult);
+            moneyFromWins = moneyFromWins + gameResult.getProfit();
+            //only adds the winning spins to the record list
+            addToList(spinResult, spinRecordList);
+            last = gameResult;
         }
 
         int totalBetSum = TEST_BET_AMOUNT * SIMULATE_SPINS_AMOUNT;
         System.out.println("Runden gespielt: " + SIMULATE_SPINS_AMOUNT);
         System.out.println("Runden gewonnen: " + spinRecordList.size());
         System.out.println("Gesamter Einsatz: " + totalBetSum);
-        System.out.println("Gesamtgewinn: " + moneyFromWins);
-        System.out.println("Kontostand Änderung: " + (moneyFromWins - totalBetSum));
+        System.out.println("Kontostand: " + last.getNewBalance());
     }
 
 

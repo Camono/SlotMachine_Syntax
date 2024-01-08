@@ -80,4 +80,9 @@ public class Symbol {
         Symbol symbolToCompare = (Symbol) obj;
         return Objects.equals(symbolToCompare, this.symbolType);
     }
+
+    @Override
+    public String toString() {
+        return symbolType.name();
+    }
 }
