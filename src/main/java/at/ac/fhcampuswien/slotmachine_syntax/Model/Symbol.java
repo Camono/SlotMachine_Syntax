@@ -13,7 +13,6 @@ import java.util.Objects;
  */
 
 public class Symbol {
-    //variables
     private Image image;
     private SymbolType symbolType;
     private double appearFactor;
@@ -23,8 +22,6 @@ public class Symbol {
     private boolean isWild;
     private boolean isFreeSpin;
 
-
-    //constructor
     public Symbol(Image image, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
         this.image = image;
         this.symbolType = symbolType;
@@ -36,7 +33,6 @@ public class Symbol {
         this.isFreeSpin = isFreeSpin;
     }
 
-    //getter
     public Image getImage() {
         return image;
     }

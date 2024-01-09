@@ -1,6 +1,7 @@
-package at.ac.fhcampuswien.slotmachine_syntax;
+package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
 import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
+import at.ac.fhcampuswien.slotmachine_syntax.Util.StaticGamedata;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import javafx.animation.PauseTransition;
@@ -19,6 +20,21 @@ public class SlotMachineController {
 
     @FXML
     private ImageView backgroundImageView;
+
+    @FXML
+    private ImageView symbol1;
+
+    @FXML
+    private ImageView symbol2;
+
+    @FXML
+    private ImageView symbol3;
+
+    @FXML
+    private ImageView symbol4;
+
+    @FXML
+    private ImageView symbol5;
 
     @FXML
     private Button spinBtn;
@@ -45,7 +61,11 @@ public class SlotMachineController {
         // Add your code here
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
-
+        symbol1.setImage(gameResult.getSymbols().get(0).getImage());
+        symbol2.setImage(gameResult.getSymbols().get(1).getImage());
+        symbol3.setImage(gameResult.getSymbols().get(2).getImage());
+        symbol4.setImage(gameResult.getSymbols().get(3).getImage());
+        symbol5.setImage(gameResult.getSymbols().get(4).getImage());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
 
@@ -106,7 +126,14 @@ public class SlotMachineController {
     // Initialize method if needed
     @FXML
     public void initialize() {
-        // Initialization code here (optional)
+        symbol1.setImage(StaticGamedata.U1.getImage());
+        symbol2.setImage(StaticGamedata.U6.getImage());
+        symbol3.setImage(StaticGamedata.U1.getImage());
+        symbol4.setImage(StaticGamedata.U1.getImage());
+        symbol5.setImage(StaticGamedata.U1.getImage());
+
+
+
     }
 }
 
