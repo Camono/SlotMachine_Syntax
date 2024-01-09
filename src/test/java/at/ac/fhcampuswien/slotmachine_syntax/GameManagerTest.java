@@ -8,6 +8,7 @@ import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
@@ -70,7 +71,7 @@ public class GameManagerTest {
 
         //randomly pick symbols up to RANDOM_DISTRIBUTION_QUANTITY
         for (int i = 0; i < RANDOM_DISTRIBUTION_QUANTITY; i++) {
-            symbols.add(manager.pickRandomSymbol(null));
+            symbols.add(manager.pickRandomSymbol(Collections.emptyList()));
         }
 
         //count every symbol with streams
