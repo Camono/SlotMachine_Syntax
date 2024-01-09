@@ -1,6 +1,5 @@
 package at.ac.fhcampuswien.slotmachine_syntax.Model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class GameResult {
