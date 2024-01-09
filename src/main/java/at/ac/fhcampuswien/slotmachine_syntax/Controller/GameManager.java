@@ -11,32 +11,21 @@ public class GameManager {
     //variables
     private int currentBetIndex;
     private double balance;
+    private final List<Integer> betRange;
 
-    private List<Integer> betRange;
-
-    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 2 mal erscheint
+    //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
     private final double DEFAULT_CHANCE_OF_X3 = 0.33;
-    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 3 mal erscheint
-
+    //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
     private final double DEFAULT_CHANCE_OF_X4 = 0.17;
-    //Wahrscheinlichkeit dass das zuerst gewählte Symbol noch 4 mal erscheint
 
     //constructors
     public GameManager(double balance) {
         this.balance = balance;
-        this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100); //not part of constructor as it's hardcoded during runtime init.
-        this.currentBetIndex = 0;
+        //betting possibilities are predefined
+        this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100);
+        //10 Credits pro Spin
+        this.currentBetIndex = 3;
     }
-
-
-    public void initialize() {
-
-    }
-
-    /**
-     * the below methods are used to in/decrease your current bet to the next higher/lower one.
-     * e.g. from 10 to 5 credits per spin or vice versa.
-     */
 
     public int decreaseBet() {
         if (currentBetIndex > 0) {
@@ -56,18 +45,14 @@ public class GameManager {
 
     public List<Symbol> createSpinResult() {
         List<Symbol> result = new ArrayList<>();
-        //erstes Symbol darf nicht wild sein (vorerst)
+        //erstes Symbol darf nicht wild sein
         Symbol firstSymbol = pickRandomSymbol(List.of(StaticGamedata.WILD));
         result.add(firstSymbol);
 
-        //Chancen auf Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
+        //Chancen auf große Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
         //Die Chance auf Fullscreen ist abhängig vom möglichen Auszahlungsmultiplikator * 0.8
-        //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat darf die Chance dass diese Kombination eintritt nicht 1/100 = 1% sein sondern muss geringer sein -> house edge
-        double chanceOfX5 = 1 / firstSymbol.getMultiplierX5() * 0.8;
-        //Chance of fullscreen is max 10%
-        if (chanceOfX5 > 0.1) {
-            chanceOfX5 = 0.1;
-        }
+        //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat, darf die Chance, dass diese Kombination eintritt nicht 1/100 = 1% sein, sondern muss geringer sein -> house edge
+        double chanceOfX5 = getChanceOfX5(firstSymbol);
 
         Random random = new Random();
         double randomValue = random.nextDouble();
@@ -91,16 +76,16 @@ public class GameManager {
             //an der letzten und vorletzten Stelle darf kein Gewinnsymbol oder Wildsymbol mehr generiert werden
             //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
             result.addAll(Arrays.asList(firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD))));
-            return result;
         } else {
             //4 random symbols = no win
             //das zweite zufällig generierte symbol darf weder wild noch das erste vorkommende Symbol sein
             //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
             result.addAll(Arrays.asList(pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList())));
-            return result;
         }
 
+        return result;
     }
+
 
     public Symbol pickRandomSymbol(List<Symbol> symbolsToExclude) {
         List<Symbol> elements = new ArrayList<>(StaticGamedata.getAllSymbols());
@@ -151,21 +136,7 @@ public class GameManager {
 
         //wenn der counter 2 oder größer ist, gibt es mindestens 3 gleiche symbole von links nach rechts
         if (counter > 1) {
-            double multiplicator = 0.0;
-
-            switch (counter) {
-                case 2:
-                    multiplicator = firstSymbol.getMultiplierX3();
-                    break;
-                case 3:
-                    multiplicator = firstSymbol.getMultiplierX4();
-                    break;
-                case 4:
-                    multiplicator = firstSymbol.getMultiplierX5();
-                    break;
-            }
-
-            double winSum = betRange.get(currentBetIndex) * multiplicator;
+            double winSum = getWinSum(counter, firstSymbol);
             balance = balance + winSum;
             return new GameResult(winSum, balance, spinResult);
         } else {
@@ -174,6 +145,28 @@ public class GameManager {
             balance = balance - betRange.get(currentBetIndex);
             return new GameResult(0.0, balance, spinResult);
         }
+    }
+
+    private double getWinSum(int counter, Symbol firstSymbol) {
+        //map the number of appearances of the symbol from left to right to the correct payout multiplicator
+        double multiplicator = switch (counter) {
+            case 2 -> firstSymbol.getMultiplierX3();
+            case 3 -> firstSymbol.getMultiplierX4();
+            case 4 -> firstSymbol.getMultiplierX5();
+            default -> 0.0;
+        };
+
+        //bet from the betRange List multiplied with the multiplicator is the win sum
+        return betRange.get(currentBetIndex) * multiplicator;
+    }
+
+    private double getChanceOfX5(Symbol firstSymbol) {
+        double chanceOfX5 = 1 / firstSymbol.getMultiplierX5() * 0.8;
+        //Chance of fullscreen is max 10%
+        if (chanceOfX5 > 0.1) {
+            chanceOfX5 = 0.1;
+        }
+        return chanceOfX5;
     }
 
 }
