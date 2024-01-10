@@ -20,7 +20,7 @@ This application is a JavaFX-based slot machine game featuring a visually appeal
 
 ## Getting Started
 To start the project, follow these steps:
-- **Clone the Repository:** Obtain the project files from the repository. And checkout to `development` branch.
+- **Clone the Repository:** Obtain the project files from the repository. And checkout to `main` branch.
 - **Java Version:** Ensure Java 17 is installed on your system, as it is required for running this application.
 - **Open in IDE:** Open the project in a Java IDE, preferably one that supports JavaFX.
 - **Install Dependencies:** Ensure JavaFX and any other dependencies are properly installed.
