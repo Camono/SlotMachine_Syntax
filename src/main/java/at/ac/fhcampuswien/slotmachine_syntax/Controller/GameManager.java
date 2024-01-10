@@ -3,6 +3,7 @@ package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.Util.StaticGamedata;
 
 import java.util.*;
 
