@@ -1,7 +1,5 @@
 package at.ac.fhcampuswien.slotmachine_syntax.Model;
 
-import javafx.scene.image.Image;
-
 import java.util.Objects;
 
 /**
@@ -13,7 +11,7 @@ import java.util.Objects;
  */
 
 public class Symbol {
-    private Image image;
+    private String imagePath;
     private SymbolType symbolType;
     private double appearFactor;
     private double multiplierX3;
@@ -22,8 +20,8 @@ public class Symbol {
     private boolean isWild;
     private boolean isFreeSpin;
 
-    public Symbol(Image image, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
-        this.image = image;
+    public Symbol(String imagePath, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
+        this.imagePath = imagePath;
         this.symbolType = symbolType;
         this.appearFactor = appearChance;
         this.multiplierX3 = multiplierX3;
@@ -33,8 +31,8 @@ public class Symbol {
         this.isFreeSpin = isFreeSpin;
     }
 
-    public Image getImage() {
-        return image;
+    public String getImagePath() {
+        return imagePath;
     }
 
     public SymbolType getSymbolType() {
