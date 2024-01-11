@@ -12,11 +12,11 @@ import java.io.InputStream;
 import java.util.*;
 import java.util.stream.IntStream;
 
-public class GameDataJsonLoader {
+public class JsonDataLoader {
 
     private final List<Symbol> symbols;
 
-    public GameDataJsonLoader() {
+    public JsonDataLoader() {
         symbols = new ArrayList<>();
         initializeJson();
     }

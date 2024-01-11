@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.slotmachine_syntax;
 
 import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
-import at.ac.fhcampuswien.slotmachine_syntax.Util.GameDataJsonLoader;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
