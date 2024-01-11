@@ -3,7 +3,7 @@ package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
-import at.ac.fhcampuswien.slotmachine_syntax.Util.StaticGamedata;
+import at.ac.fhcampuswien.slotmachine_syntax.Util.GameDataJsonLoader;
 
 import java.util.*;
 
@@ -19,6 +19,8 @@ public class GameManager {
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
     private final double DEFAULT_CHANCE_OF_X4 = 0.17;
 
+    private final GameDataJsonLoader gameDataJsonLoader;
+
     //constructors
     public GameManager(double balance) {
         this.balance = balance;
@@ -26,6 +28,7 @@ public class GameManager {
         this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100);
         //10 Credits pro Spin
         this.currentBetIndex = 3;
+        this.gameDataJsonLoader = new GameDataJsonLoader();
     }
 
     public int decreaseBet() {
@@ -47,7 +50,7 @@ public class GameManager {
     public List<Symbol> createSpinResult() {
         List<Symbol> result = new ArrayList<>();
         //erstes Symbol darf nicht wild sein
-        Symbol firstSymbol = pickRandomSymbol(List.of(StaticGamedata.WILD));
+        Symbol firstSymbol = pickRandomSymbol(List.of(gameDataJsonLoader.getSymbol(SymbolType.WILD)));
         result.add(firstSymbol);
 
         //Chancen auf große Gewinne sind abhängig von ihrem Auszahlungsmultiplikator
@@ -68,7 +71,7 @@ public class GameManager {
             //add 3 more same symbols and 1 random symbol
             //an der letzten Stelle darf kein Gewinnsymbol oder Wildsymbol mehr generiert werden
             //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
-            result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD))));
+            result.addAll(Arrays.asList(firstSymbol, firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, gameDataJsonLoader.getSymbol(SymbolType.WILD)))));
             return result;
         }
 
@@ -76,12 +79,12 @@ public class GameManager {
             //add 2 more same symbols and 2 random symbols
             //an der letzten und vorletzten Stelle darf kein Gewinnsymbol oder Wildsymbol mehr generiert werden
             //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
-            result.addAll(Arrays.asList(firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD))));
+            result.addAll(Arrays.asList(firstSymbol, firstSymbol, pickRandomSymbol(List.of(firstSymbol, gameDataJsonLoader.getSymbol(SymbolType.WILD))), pickRandomSymbol(List.of(firstSymbol, gameDataJsonLoader.getSymbol(SymbolType.WILD)))));
         } else {
             //4 random symbols = no win
             //das zweite zufällig generierte symbol darf weder wild noch das erste vorkommende Symbol sein
             //sonst wäre möglich dass eine Gewinnkombination angezeigt wird die nicht mit dem Multiplikator übereinstimmt
-            result.addAll(Arrays.asList(pickRandomSymbol(List.of(firstSymbol, StaticGamedata.WILD)), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList())));
+            result.addAll(Arrays.asList(pickRandomSymbol(List.of(firstSymbol, gameDataJsonLoader.getSymbol(SymbolType.WILD))), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList()), pickRandomSymbol(Collections.emptyList())));
         }
 
         return result;
@@ -89,7 +92,7 @@ public class GameManager {
 
 
     public Symbol pickRandomSymbol(List<Symbol> symbolsToExclude) {
-        List<Symbol> elements = new ArrayList<>(StaticGamedata.getAllSymbols());
+        List<Symbol> elements = new ArrayList<>(gameDataJsonLoader.getAllSymbols());
         //Wenn wir ein oder mehr Symbol ausschließen wollen aus der Zufallswahl
         if (!symbolsToExclude.isEmpty()) {
             elements.removeAll(symbolsToExclude);
@@ -168,6 +171,10 @@ public class GameManager {
             chanceOfX5 = 0.1;
         }
         return chanceOfX5;
+    }
+
+    public GameDataJsonLoader getGameDataJsonLoader() {
+        return gameDataJsonLoader;
     }
 
 }

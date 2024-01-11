@@ -1,7 +1,6 @@
 package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
-import at.ac.fhcampuswien.slotmachine_syntax.Util.StaticGamedata;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import javafx.animation.PauseTransition;
@@ -10,11 +9,14 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SlotMachineController {
 
@@ -55,17 +57,20 @@ public class SlotMachineController {
     private Button infoBtn;
 
     // Event handler for spinBtn
-    private GameManager gameManager = new GameManager(1000);
+    private final GameManager gameManager = new GameManager(1000);
+    private Map<String, Image> imageCache = new HashMap<>();
+
+
     @FXML
     private void onSpinButtonClick() {
         // Add your code here
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
-        symbol1.setImage(gameResult.getSymbols().get(0).getImage());
-        symbol2.setImage(gameResult.getSymbols().get(1).getImage());
-        symbol3.setImage(gameResult.getSymbols().get(2).getImage());
-        symbol4.setImage(gameResult.getSymbols().get(3).getImage());
-        symbol5.setImage(gameResult.getSymbols().get(4).getImage());
+        updateSymbolImage(symbol1,gameResult.getSymbols().get(0).getImagePath());
+        updateSymbolImage(symbol2,gameResult.getSymbols().get(1).getImagePath());
+        updateSymbolImage(symbol3,gameResult.getSymbols().get(2).getImagePath());
+        updateSymbolImage(symbol4,gameResult.getSymbols().get(3).getImagePath());
+        updateSymbolImage(symbol5,gameResult.getSymbols().get(4).getImagePath());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
 
@@ -126,14 +131,20 @@ public class SlotMachineController {
     // Initialize method if needed
     @FXML
     public void initialize() {
-        symbol1.setImage(StaticGamedata.U1.getImage());
-        symbol2.setImage(StaticGamedata.U6.getImage());
-        symbol3.setImage(StaticGamedata.U1.getImage());
-        symbol4.setImage(StaticGamedata.U1.getImage());
-        symbol5.setImage(StaticGamedata.U1.getImage());
+        updateSymbolImage(symbol1,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+        updateSymbolImage(symbol2,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+        updateSymbolImage(symbol3,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+        updateSymbolImage(symbol4,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+        updateSymbolImage(symbol5,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+    }
 
-
-
+    private void updateSymbolImage(ImageView imageView, String imagePath) {
+        Image image = imageCache.get(imagePath);
+        if (image == null) {
+            image = new Image(imagePath);
+            imageCache.put(imagePath, image);
+        }
+        imageView.setImage(image);
     }
 }
 
