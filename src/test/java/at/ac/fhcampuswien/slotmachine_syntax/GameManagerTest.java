@@ -90,44 +90,44 @@ public class GameManagerTest {
 
         //countU1 must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countU1 / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.U1).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countU1 / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.U1).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countU1 / factor >= manager.getSymbol(SymbolType.U1).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countU1 / factor <= manager.getSymbol(SymbolType.U1).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countU6 must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countU6 / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.U6).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countU6 / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.U6).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countU6 / factor >= manager.getSymbol(SymbolType.U6).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countU6 / factor <= manager.getSymbol(SymbolType.U6).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countREDBULL must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countREDBULL / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countREDBULL / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countREDBULL / factor >= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countREDBULL / factor <= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countMARLBORO must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countMARLBORO / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countMARLBORO / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countMARLBORO / factor >= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countMARLBORO / factor <= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countGIS must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countGIS / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.GIS).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countGIS / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.GIS).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countGIS / factor >= manager.getSymbol(SymbolType.GIS).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countGIS / factor <= manager.getSymbol(SymbolType.GIS).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countLUGNER must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countLUGNER / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countLUGNER / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countLUGNER / factor >= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countLUGNER / factor <= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 + maxDeviation)
         );
 
         //countWILD must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countWILD / factor >= manager.getGameDataJsonLoader().getSymbol(SymbolType.WILD).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countWILD / factor <= manager.getGameDataJsonLoader().getSymbol(SymbolType.WILD).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countWILD / factor >= manager.getSymbol(SymbolType.WILD).getAppearFactor() * 100 - maxDeviation),
+                () -> assertTrue(countWILD / factor <= manager.getSymbol(SymbolType.WILD).getAppearFactor() * 100 + maxDeviation)
         );
 
         System.out.println("U1: " + (double) countU1 / factor + "%");

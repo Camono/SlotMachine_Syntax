@@ -71,8 +71,9 @@ public class Symbol {
         if (!(obj instanceof Symbol)) {
             return false;
         }
+
         Symbol symbolToCompare = (Symbol) obj;
-        return Objects.equals(symbolToCompare, this.symbolType);
+        return Objects.equals(symbolToCompare.getSymbolType(), this.symbolType);
     }
 
     @Override

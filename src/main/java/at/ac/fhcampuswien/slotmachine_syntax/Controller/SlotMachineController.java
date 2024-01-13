@@ -1,8 +1,8 @@
 package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -14,9 +14,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.List;
-import java.util.Map;
 
 public class SlotMachineController {
 
@@ -24,19 +23,19 @@ public class SlotMachineController {
     private ImageView backgroundImageView;
 
     @FXML
-    private ImageView symbol1;
+    private ImageView symbol1ImageView;
 
     @FXML
-    private ImageView symbol2;
+    private ImageView symbol2ImageView;
 
     @FXML
-    private ImageView symbol3;
+    private ImageView symbol3ImageView;
 
     @FXML
-    private ImageView symbol4;
+    private ImageView symbol4ImageView;
 
     @FXML
-    private ImageView symbol5;
+    private ImageView symbol5ImageView;
 
     @FXML
     private Button spinBtn;
@@ -57,20 +56,13 @@ public class SlotMachineController {
     private Button infoBtn;
 
     // Event handler for spinBtn
-    private final GameManager gameManager = new GameManager(1000);
-    private Map<String, Image> imageCache = new HashMap<>();
-
-
+    private GameManager gameManager = new GameManager(1000);
     @FXML
     private void onSpinButtonClick() {
         // Add your code here
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
-        updateSymbolImage(symbol1,gameResult.getSymbols().get(0).getImagePath());
-        updateSymbolImage(symbol2,gameResult.getSymbols().get(1).getImagePath());
-        updateSymbolImage(symbol3,gameResult.getSymbols().get(2).getImagePath());
-        updateSymbolImage(symbol4,gameResult.getSymbols().get(3).getImagePath());
-        updateSymbolImage(symbol5,gameResult.getSymbols().get(4).getImagePath());
+        setSymbolImages(gameResult.getSymbols());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
 
@@ -131,20 +123,26 @@ public class SlotMachineController {
     // Initialize method if needed
     @FXML
     public void initialize() {
-        updateSymbolImage(symbol1,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
-        updateSymbolImage(symbol2,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
-        updateSymbolImage(symbol3,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
-        updateSymbolImage(symbol4,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
-        updateSymbolImage(symbol5,gameManager.getGameDataJsonLoader().getImageByName(SymbolType.U1));
+        setSymbolImages(Collections.emptyList());
+        betLabel.setText(gameManager.getBet()+"");
     }
 
-    private void updateSymbolImage(ImageView imageView, String imagePath) {
-        Image image = imageCache.get(imagePath);
-        if (image == null) {
-            image = new Image(imagePath);
-            imageCache.put(imagePath, image);
+    private void setSymbolImages(List<Symbol> symbols) {
+        if (symbols != null && !symbols.isEmpty()) {
+            //on game result fill
+            symbol1ImageView.setImage(new Image(symbols.get(0).getImagePath()));
+            symbol2ImageView.setImage(new Image(symbols.get(1).getImagePath()));
+            symbol3ImageView.setImage(new Image(symbols.get(2).getImagePath()));
+            symbol4ImageView.setImage(new Image(symbols.get(3).getImagePath()));
+            symbol5ImageView.setImage(new Image(symbols.get(4).getImagePath()));
+        } else {
+            //initial fill
+            symbol1ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U1).getImagePath()));
+            symbol2ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U6).getImagePath()));
+            symbol3ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.RED_BULL).getImagePath()));
+            symbol4ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.MARLBORO).getImagePath()));
+            symbol5ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.LUGNER).getImagePath()));
         }
-        imageView.setImage(image);
     }
 }
 

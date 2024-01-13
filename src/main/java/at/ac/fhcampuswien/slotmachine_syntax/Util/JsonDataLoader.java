@@ -2,74 +2,42 @@ package at.ac.fhcampuswien.slotmachine_syntax.Util;
 
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
-
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import java.io.InputStream;
-import java.util.*;
-import java.util.stream.IntStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class JsonDataLoader {
-
-    private final List<Symbol> symbols;
-
-    public JsonDataLoader() {
-        symbols = new ArrayList<>();
-        initializeJson();
-    }
-
-    private void initializeJson() {
-        InputStream is = getClass().getResourceAsStream("/symbols.json");
-        if(is == null){
-            return;
+    public static List<Symbol> getAllSymbolsFromJSON() {
+        InputStream is = JsonDataLoader.class.getResourceAsStream("/symbols.json");
+        if (is == null) {
+            return Collections.emptyList();
         }
+
+        List<Symbol> result = new ArrayList<>();
 
         JSONTokener tokenizer = new JSONTokener(is);
         JSONObject root = new JSONObject(tokenizer);
-        loadSymbols(root.getJSONArray("symbols"));
-    }
-
-    private void loadSymbols(JSONArray symbolsArray) {
-        List<Symbol> loadedSymbols = new ArrayList<>();
-        IntStream.range(0, symbolsArray.length()).forEach(i -> {
-            try {
-                JSONObject jsonSymbol = symbolsArray.getJSONObject(i);
-                Symbol symbol = new Symbol(jsonSymbol.getString("imagePath"),
-                        SymbolType.valueOf(jsonSymbol.getString("symbolType").toUpperCase()),
-                        jsonSymbol.getDouble("appearFactor"),
-                        jsonSymbol.getDouble("multiplierX3"),
-                        jsonSymbol.getDouble("multiplierX4"),
-                        jsonSymbol.getDouble("multiplierX5"),
-                        jsonSymbol.getBoolean("isWild"),
-                        jsonSymbol.getBoolean("isFreeSpin")
-                );
-                loadedSymbols.add(symbol);
-            } catch (JSONException e) {
-                System.err.println("Error parsing JSON: " + e.getMessage());
-            }
+        root.getJSONArray("symbols").forEach(symbol -> {
+            result.add(mapJSONtoSymbol((JSONObject) symbol));
         });
-        symbols.addAll(loadedSymbols);
+
+        return result;
     }
 
-    public Symbol getSymbol(SymbolType symbolType) {
-        return symbols.stream()
-                .filter(symbol -> symbol.getSymbolType() == symbolType)
-                .findAny()
-                .orElseThrow(() -> new NoSuchElementException("This symbol is not existing: "+symbolType.toString()));
-    }
+    private static Symbol mapJSONtoSymbol(JSONObject jsonSymbol) {
+        Symbol result = new Symbol(jsonSymbol.getString("imagePath"),
+                SymbolType.valueOf(jsonSymbol.getString("symbolType").toUpperCase()),
+                jsonSymbol.getDouble("appearFactor"),
+                jsonSymbol.getDouble("multiplierX3"),
+                jsonSymbol.getDouble("multiplierX4"),
+                jsonSymbol.getDouble("multiplierX5"),
+                jsonSymbol.getBoolean("isWild"),
+                jsonSymbol.getBoolean("isFreeSpin"));
 
-    public String getImageByName(SymbolType symbolType) {
-        return symbols.stream()
-                .filter(symbol -> symbol.getSymbolType() == symbolType)
-                .findAny()
-                .orElseThrow(() -> new NoSuchElementException("This image is not existing: "+ symbolType.toString())).getImagePath();
+        return result;
     }
-
-    public List<Symbol> getAllSymbols() {
-        return symbols.stream().toList();
-    }
-
 }
