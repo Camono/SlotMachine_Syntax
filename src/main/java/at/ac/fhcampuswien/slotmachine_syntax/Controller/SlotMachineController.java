@@ -1,19 +1,20 @@
 package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
-import at.ac.fhcampuswien.slotmachine_syntax.Util.StaticGamedata;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
 import javafx.util.Duration;
 
+import java.util.Collections;
 import java.util.List;
 
 public class SlotMachineController {
@@ -22,19 +23,19 @@ public class SlotMachineController {
     private ImageView backgroundImageView;
 
     @FXML
-    private ImageView symbol1;
+    private ImageView symbol1ImageView;
 
     @FXML
-    private ImageView symbol2;
+    private ImageView symbol2ImageView;
 
     @FXML
-    private ImageView symbol3;
+    private ImageView symbol3ImageView;
 
     @FXML
-    private ImageView symbol4;
+    private ImageView symbol4ImageView;
 
     @FXML
-    private ImageView symbol5;
+    private ImageView symbol5ImageView;
 
     @FXML
     private Button spinBtn;
@@ -61,11 +62,7 @@ public class SlotMachineController {
         // Add your code here
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
-        symbol1.setImage(gameResult.getSymbols().get(0).getImage());
-        symbol2.setImage(gameResult.getSymbols().get(1).getImage());
-        symbol3.setImage(gameResult.getSymbols().get(2).getImage());
-        symbol4.setImage(gameResult.getSymbols().get(3).getImage());
-        symbol5.setImage(gameResult.getSymbols().get(4).getImage());
+        setSymbolImages(gameResult.getSymbols());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
 
@@ -126,14 +123,26 @@ public class SlotMachineController {
     // Initialize method if needed
     @FXML
     public void initialize() {
-        symbol1.setImage(StaticGamedata.U1.getImage());
-        symbol2.setImage(StaticGamedata.U6.getImage());
-        symbol3.setImage(StaticGamedata.U1.getImage());
-        symbol4.setImage(StaticGamedata.U1.getImage());
-        symbol5.setImage(StaticGamedata.U1.getImage());
+        setSymbolImages(Collections.emptyList());
+        betLabel.setText(gameManager.getBet()+"");
+    }
 
-
-
+    private void setSymbolImages(List<Symbol> symbols) {
+        if (symbols != null && !symbols.isEmpty()) {
+            //on game result fill
+            symbol1ImageView.setImage(new Image(symbols.get(0).getImagePath()));
+            symbol2ImageView.setImage(new Image(symbols.get(1).getImagePath()));
+            symbol3ImageView.setImage(new Image(symbols.get(2).getImagePath()));
+            symbol4ImageView.setImage(new Image(symbols.get(3).getImagePath()));
+            symbol5ImageView.setImage(new Image(symbols.get(4).getImagePath()));
+        } else {
+            //initial fill
+            symbol1ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U1).getImagePath()));
+            symbol2ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U6).getImagePath()));
+            symbol3ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.RED_BULL).getImagePath()));
+            symbol4ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.MARLBORO).getImagePath()));
+            symbol5ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.LUGNER).getImagePath()));
+        }
     }
 }
 

@@ -2,6 +2,7 @@ module at.ac.fhcampuswien.slotmachine_syntax {
     requires javafx.controls;
     requires javafx.fxml;
     requires org.junit.jupiter.api;
+    requires org.json;
 
 
     opens at.ac.fhcampuswien.slotmachine_syntax to javafx.fxml;

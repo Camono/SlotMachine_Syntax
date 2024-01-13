@@ -1,0 +1,86 @@
+{
+  "symbols": [
+    {
+      "symbolType": "U1",
+      "imagePath": "/symbols/Banana.png",
+      "appearFactor": 0.25,
+      "multiplierX3": 0.15,
+      "multiplierX4": 0.5,
+      "multiplierX5": 2.5,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "U6",
+      "imagePath": "/symbols/Bar.png",
+      "appearFactor": 0.24,
+      "multiplierX3": 0.15,
+      "multiplierX4": 0.5,
+      "multiplierX5": 2.5,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "RED_BULL",
+      "imagePath": "/symbols/Cheeries.png",
+      "appearFactor": 0.17,
+      "multiplierX3": 0.5,
+      "multiplierX4": 2.5,
+      "multiplierX5": 5.5,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "MARLBORO",
+      "imagePath": "/symbols/Diamond.png",
+      "appearFactor": 0.14,
+      "multiplierX3": 0.5,
+      "multiplierX4": 3.5,
+      "multiplierX5": 7.0,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "GIS",
+      "imagePath": "/symbols/GoldenShoe.png",
+      "appearFactor": 0.07,
+      "multiplierX3": 1.5,
+      "multiplierX4": 6.0,
+      "multiplierX5": 15.3,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "LUGNER",
+      "imagePath": "/symbols/Grapes.png",
+      "appearFactor": 0.03,
+      "multiplierX3": 5.0,
+      "multiplierX4": 20.0,
+      "multiplierX5": 50.0,
+      "isWild": false,
+      "isFreeSpin": false
+    },
+    {
+      "symbolType": "FEATURE_SYMBOL",
+      "imagePath": "/symbols/Seven.png",
+      "appearFactor": 0.0,
+      "multiplierX3": 0,
+      "multiplierX4": 0,
+      "multiplierX5": 0,
+      "isWild": false,
+      "isFreeSpin": true
+    },
+    {
+      "symbolType": "WILD",
+      "imagePath": "/symbols/Orange.png",
+      "appearFactor": 0.1,
+      "multiplierX3": 0,
+      "multiplierX4": 0,
+      "multiplierX5": 0,
+      "isWild": true,
+      "isFreeSpin": false
+    }
+  ]
+}
+
+
