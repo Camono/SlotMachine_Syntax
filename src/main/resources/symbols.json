@@ -2,7 +2,7 @@
   "symbols": [
     {
       "symbolType": "U1",
-      "imagePath": "/symbols/Banana.png",
+      "imagePath": "/symbols/U1.png",
       "appearFactor": 0.25,
       "multiplierX3": 0.15,
       "multiplierX4": 0.5,
@@ -12,7 +12,7 @@
     },
     {
       "symbolType": "U6",
-      "imagePath": "/symbols/Bar.png",
+      "imagePath": "/symbols/U6.png",
       "appearFactor": 0.24,
       "multiplierX3": 0.15,
       "multiplierX4": 0.5,
@@ -22,7 +22,7 @@
     },
     {
       "symbolType": "RED_BULL",
-      "imagePath": "/symbols/Cheeries.png",
+      "imagePath": "/symbols/Red_Bull.png",
       "appearFactor": 0.17,
       "multiplierX3": 0.5,
       "multiplierX4": 2.5,
@@ -32,7 +32,7 @@
     },
     {
       "symbolType": "MARLBORO",
-      "imagePath": "/symbols/Diamond.png",
+      "imagePath": "/symbols/Marlboro.png",
       "appearFactor": 0.14,
       "multiplierX3": 0.5,
       "multiplierX4": 3.5,
@@ -42,7 +42,7 @@
     },
     {
       "symbolType": "GIS",
-      "imagePath": "/symbols/GoldenShoe.png",
+      "imagePath": "/symbols/GIS.png",
       "appearFactor": 0.07,
       "multiplierX3": 1.5,
       "multiplierX4": 6.0,
@@ -52,7 +52,7 @@
     },
     {
       "symbolType": "LUGNER",
-      "imagePath": "/symbols/Grapes.png",
+      "imagePath": "/symbols/Lugner.png",
       "appearFactor": 0.03,
       "multiplierX3": 5.0,
       "multiplierX4": 20.0,
@@ -72,7 +72,7 @@
     },
     {
       "symbolType": "WILD",
-      "imagePath": "/symbols/Orange.png",
+      "imagePath": "/symbols/Wild.png",
       "appearFactor": 0.1,
       "multiplierX3": 0,
       "multiplierX4": 0,

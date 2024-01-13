@@ -131,18 +131,41 @@ public class SlotMachineController {
         if (symbols != null && !symbols.isEmpty()) {
             //on game result fill
             symbol1ImageView.setImage(new Image(symbols.get(0).getImagePath()));
+            centerImage(symbol1ImageView);
             symbol2ImageView.setImage(new Image(symbols.get(1).getImagePath()));
+            centerImage(symbol2ImageView);
             symbol3ImageView.setImage(new Image(symbols.get(2).getImagePath()));
+            centerImage(symbol3ImageView);
             symbol4ImageView.setImage(new Image(symbols.get(3).getImagePath()));
+            centerImage(symbol4ImageView);
             symbol5ImageView.setImage(new Image(symbols.get(4).getImagePath()));
+            centerImage(symbol5ImageView);
         } else {
             //initial fill
             symbol1ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U1).getImagePath()));
+            centerImage(symbol1ImageView);
             symbol2ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.U6).getImagePath()));
+            centerImage(symbol2ImageView);
             symbol3ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.RED_BULL).getImagePath()));
+            centerImage(symbol3ImageView);
             symbol4ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.MARLBORO).getImagePath()));
+            centerImage(symbol4ImageView);
             symbol5ImageView.setImage(new Image(gameManager.getSymbol(SymbolType.LUGNER).getImagePath()));
+            centerImage(symbol5ImageView);
         }
+    }
+
+    private void centerImage(ImageView iv) {
+        double ratioX = iv.getFitWidth() / iv.getImage().getWidth();
+        double ratioY = iv.getFitHeight() / iv.getImage().getHeight();
+
+        double temp = Math.min(ratioX, ratioY);
+
+        double width = iv.getImage().getWidth() * temp;
+        double height = iv.getImage().getHeight() * temp;
+
+        iv.setX((iv.getFitWidth() - width) / 2);
+        iv.setY((iv.getFitHeight() - height) / 2);
     }
 }
 
