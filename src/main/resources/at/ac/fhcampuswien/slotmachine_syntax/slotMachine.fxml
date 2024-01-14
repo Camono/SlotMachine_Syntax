@@ -14,24 +14,69 @@
             <Image url="@../../../../image/Background.png" />
          </image>
       </ImageView>
-      <Button fx:id="spinBtn" layoutX="241.0" layoutY="487.0" mnemonicParsing="false" onAction="#onSpinButtonClick" opacity="0.0" prefHeight="44.0" prefWidth="140.0" />
-      <Button id="bet+" fx:id="increaseBetBtn" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#onIncreaseBetButtonClick" opacity="0.0" prefHeight="50.0" prefWidth="89.0" />
-      <Button fx:id="decreaseBetBtn" layoutX="847.0" layoutY="482.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" opacity="0.0" prefHeight="58.0" prefWidth="89.0" />
-      <Label fx:id="balanceLabel" alignment="CENTER" layoutX="439.0" layoutY="504.0" prefHeight="25.0" prefWidth="78.0" text="1000.0" textOverrun="CLIP">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="484.0" opacity="0.9" prefHeight="53.0" prefWidth="137.0" text="SPIN!" textAlignment="CENTER">
          <font>
-            <Font name="Baskerville" size="20.0" />
+            <Font name="Baskerville Bold" size="38.0" />
          </font>
       </Label>
-      <Label fx:id="betLabel" alignment="CENTER" layoutX="712.0" layoutY="490.0" prefHeight="39.0" prefWidth="86.0" text="1" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="432.0" layoutY="493.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="CREDITS:" textAlignment="CENTER">
          <font>
-            <Font name="Baskerville Bold" size="24.0" />
+            <Font name="Baskerville Bold" size="14.0" />
+         </font></Label>
+      <Label fx:id="balanceLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="439.0" layoutY="506.0" opacity="0.9" prefHeight="25.0" prefWidth="78.0" text="1000.0">
+         <font>
+            <Font name="Baskerville Bold" size="14.0" />
          </font>
       </Label>
-      <Button id="info" fx:id="infoBtn" layoutX="1132.0" layoutY="23.0" mnemonicParsing="false" onAction="#onInfoButtonClick" text="i" />
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="710.0" layoutY="493.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="AMOUNT:" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="572.0" layoutY="486.0" opacity="0.9" prefHeight="46.0" prefWidth="90.0" text="UP BET" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="848.0" layoutY="486.0" opacity="0.9" prefHeight="46.0" prefWidth="90.0" text="DOWN BET" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label fx:id="betLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="716.0" layoutY="506.0" opacity="0.9" prefHeight="25.0" prefWidth="78.0" text="10" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="14.0" />
+         </font>
+      </Label>
+      <Label alignment="CENTER" layoutX="243.0" layoutY="213.0" opacity="0.9" prefHeight="31.0" prefWidth="30.0" text="i">
+         <font>
+            <Font name="Baskerville Bold" size="25.0" />
+         </font>
+      </Label>
       <ImageView fx:id="symbol1ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="306.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol2ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="439.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol3ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="569.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol4ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="698.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol5ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="825.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
+      <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0" >
+         <style>
+            -fx-focus-color: transparent;
+         </style>
+      </Button>
+      <Button fx:id="increaseBetBtn" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#onIncreaseBetButtonClick" onMousePressed="#onIncreaseBetButtonPressed" onMouseReleased="#onIncreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0" >
+         <style>
+            -fx-focus-color: transparent;
+         </style>
+      </Button>
+      <Button fx:id="spinBtn" layoutX="240.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSpinButtonClick" onMousePressed="#onSpinButtonPressed" onMouseReleased="#onSpinButtonReleased" opacity="0.0" prefHeight="46.0" prefWidth="140.0" >
+         <style>
+            -fx-focus-color: transparent;
+         </style>
+      </Button>
+      <Button fx:id="infoBtn" layoutX="243.0" layoutY="213.0" mnemonicParsing="false" onAction="#onInfoButtonClick" onMousePressed="#onInfoButtonPressed" onMouseReleased="#onInfoButtonReleased" opacity="0.0" prefHeight="30.0" prefWidth="29.0" >
+         <style>
+            -fx-focus-color: transparent;
+         </style>
+      </Button>
    </children>
 </AnchorPane>

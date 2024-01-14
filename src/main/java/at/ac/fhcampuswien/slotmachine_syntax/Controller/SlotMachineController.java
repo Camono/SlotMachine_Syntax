@@ -3,17 +3,22 @@ package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
 import javafx.animation.PauseTransition;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.stage.Stage;
 import javafx.util.Duration;
-
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
@@ -117,7 +122,15 @@ public class SlotMachineController {
     }
     @FXML
     private void onInfoButtonClick() {
-
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("info.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Info");
+            stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
+            stage.show();
+        } catch (IOException e) {
+            System.out.println("Failed to load Information panel.");;
+        }
     }
 
     // Initialize method if needed
@@ -167,5 +180,36 @@ public class SlotMachineController {
         iv.setX((iv.getFitWidth() - width) / 2);
         iv.setY((iv.getFitHeight() - height) / 2);
     }
-}
 
+    public void onSpinButtonPressed(MouseEvent mouseEvent) {
+        spinBtn.setOpacity(0.3);
+    }
+
+    public void onSpinButtonReleased(MouseEvent mouseEvent) {
+        spinBtn.setOpacity(0.0);
+    }
+
+    public void onIncreaseBetButtonPressed(MouseEvent mouseEvent) {
+        increaseBetBtn.setOpacity(0.3);
+    }
+
+    public void onIncreaseBetButtonReleased(MouseEvent mouseEvent) {
+        increaseBetBtn.setOpacity(0.0);
+    }
+
+    public void onDecreaseBetButtonPressed(MouseEvent mouseEvent) {
+        decreaseBetBtn.setOpacity(0.3);
+    }
+
+    public void onDecreaseBetButtonReleased(MouseEvent mouseEvent) {
+        decreaseBetBtn.setOpacity(0.0);
+    }
+
+    public void onInfoButtonPressed(MouseEvent mouseEvent) {
+        infoBtn.setOpacity(0.3);
+    }
+
+    public void onInfoButtonReleased(MouseEvent mouseEvent) {
+        infoBtn.setOpacity(0.0);
+    }
+}

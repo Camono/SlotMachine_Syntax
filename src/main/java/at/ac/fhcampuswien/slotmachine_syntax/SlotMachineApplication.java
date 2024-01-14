@@ -13,6 +13,7 @@ public class SlotMachineApplication extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("slotMachine.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1180, 675);
         stage.setScene(scene);
+        stage.setTitle("Slot Machine");
         stage.show();
     }
 
