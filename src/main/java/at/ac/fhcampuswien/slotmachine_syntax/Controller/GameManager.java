@@ -16,9 +16,9 @@ public class GameManager {
     private List<Symbol> allSymbols;
 
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
-    private final double DEFAULT_CHANCE_OF_X3 = 0.33;
+    private final double DEFAULT_CHANCE_OF_X3 = 0.32;
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
-    private final double DEFAULT_CHANCE_OF_X4 = 0.17;
+    private final double DEFAULT_CHANCE_OF_X4 = 0.10;
 
 
     //constructors
