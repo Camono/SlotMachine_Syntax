@@ -5,25 +5,27 @@ import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
 import javafx.animation.KeyFrame;
-import javafx.animation.PauseTransition;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
+
 
 public class SlotMachineController {
 
@@ -70,6 +72,7 @@ public class SlotMachineController {
 
     @FXML
     private void onSpinButtonClick() {
+        playSound("src/main/resources/sounds/SpinSound.mp3"); // Relative path to the MP3 file
         handleSpinButtonCountdown();
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
@@ -104,22 +107,6 @@ public class SlotMachineController {
         cooldownTimeline.play();
     }
 
-
-    private void showAlertWithAutoClose(double profit) {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Information Dialog");
-        alert.setHeaderText(null);
-        alert.setContentText("Gewinn: " + profit);
-
-
-        // Set up the PauseTransition
-        PauseTransition delay = new PauseTransition(Duration.seconds(5));
-        delay.setOnFinished(event -> alert.close());
-
-        alert.show();
-        delay.play(); // Start the delay
-    }
-
     // Event handler for increaseBetBtn
     @FXML
     private void onIncreaseBetButtonClick() {
@@ -130,29 +117,6 @@ public class SlotMachineController {
     @FXML
     private void onDecreaseBetButtonClick() {
         betLabel.setText(gameManager.decreaseBet() + "");
-    }
-
-    // Event handler for infoBtn
-    private void showSymbolPopup() {
-        Alert alert = new Alert(AlertType.INFORMATION);
-        alert.setTitle("Info");
-        alert.setHeaderText("Symbols Information");
-
-        GridPane grid = new GridPane();
-        grid.setHgap(10);
-        grid.setVgap(10);
-
-        // Creating placeholders for 8 symbols and their descriptions
-        for (int i = 0; i < 8; i++) {
-            Label symbolLabel = new Label("Symbol " + (i + 1));
-            Label descriptionLabel = new Label("Beschreibung " + (i + 1));
-            grid.add(symbolLabel, 0, i); // Column 0, Row i
-            grid.add(descriptionLabel, 1, i); // Column 1, Row i
-        }
-
-        alert.getDialogPane().setContent(grid);
-
-        alert.showAndWait();
     }
 
     @FXML
@@ -248,5 +212,25 @@ public class SlotMachineController {
 
     public void onInfoButtonReleased(MouseEvent mouseEvent) {
         infoBtn.setOpacity(0.0);
+    }
+
+    public void playSound(String soundFilePath) {
+        Media media = new Media(new File(soundFilePath).toURI().toString());
+        MediaPlayer mediaPlayer = new MediaPlayer(media);
+
+        mediaPlayer.setOnReady(() -> {
+            mediaPlayer.play();
+
+            // Stop the sound after 3 seconds
+            mediaPlayer.setOnEndOfMedia(() -> {
+                mediaPlayer.stop();
+                mediaPlayer.dispose();
+            });
+
+            mediaPlayer.setStopTime(Duration.seconds(3));
+        });
+    }
+
+    public void onSoundButtonClick(ActionEvent actionEvent) {
     }
 }
