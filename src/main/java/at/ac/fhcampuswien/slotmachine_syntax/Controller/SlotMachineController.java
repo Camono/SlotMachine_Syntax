@@ -4,7 +4,9 @@ import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
+import javafx.animation.KeyFrame;
 import javafx.animation.PauseTransition;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,14 +20,12 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
 public class SlotMachineController {
-
-    @FXML
-    private ImageView backgroundImageView;
 
     @FXML
     private ImageView symbol1ImageView;
@@ -58,18 +58,52 @@ public class SlotMachineController {
     private Label betLabel;
 
     @FXML
+    private Label spinLabel;
+
+    @FXML
     private Button infoBtn;
 
-    // Event handler for spinBtn
     private GameManager gameManager = new GameManager(1000);
+    private final int cooldownDuration = 3; // in seconds
+    private int remainingCooldown;
+    private Timeline cooldownTimeline;
+
     @FXML
     private void onSpinButtonClick() {
-        // Add your code here
+        handleSpinButtonCountdown();
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
         setSymbolImages(gameResult.getSymbols());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
+
+    private void handleSpinButtonCountdown() {
+        spinLabel.setText("3");
+        spinBtn.setDisable(true);
+        spinBtn.setStyle("-fx-background-color: #232b2d;");
+
+        remainingCooldown = cooldownDuration;
+
+        cooldownTimeline = new Timeline(
+                new KeyFrame(Duration.seconds(1), event -> {
+                    remainingCooldown--;
+                    spinLabel.setText("" + remainingCooldown);
+
+
+                    if (remainingCooldown == 0) {
+                        cooldownTimeline.stop();
+                        spinBtn.setDisable(false);
+                        spinLabel.setText("SPIN");
+                        spinBtn.setOpacity(0.0);
+                        spinBtn.setStyle("-fx-background-color: transparent;");
+                    }
+                })
+        );
+
+        cooldownTimeline.setCycleCount(cooldownDuration);
+        cooldownTimeline.play();
+    }
+
 
     private void showAlertWithAutoClose(double profit) {
         Alert alert = new Alert(AlertType.INFORMATION);
@@ -120,6 +154,7 @@ public class SlotMachineController {
 
         alert.showAndWait();
     }
+
     @FXML
     private void onInfoButtonClick() {
         try {
@@ -129,7 +164,8 @@ public class SlotMachineController {
             stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
             stage.show();
         } catch (IOException e) {
-            System.out.println("Failed to load Information panel.");;
+            System.out.println("Failed to load Information panel.");
+            ;
         }
     }
 
@@ -137,7 +173,8 @@ public class SlotMachineController {
     @FXML
     public void initialize() {
         setSymbolImages(Collections.emptyList());
-        betLabel.setText(gameManager.getBet()+"");
+        betLabel.setText(gameManager.getBet() + "");
+        spinLabel.setText("SPIN");
     }
 
     private void setSymbolImages(List<Symbol> symbols) {
@@ -182,11 +219,11 @@ public class SlotMachineController {
     }
 
     public void onSpinButtonPressed(MouseEvent mouseEvent) {
-        spinBtn.setOpacity(0.3);
+        spinBtn.setOpacity(0.15);
     }
 
     public void onSpinButtonReleased(MouseEvent mouseEvent) {
-        spinBtn.setOpacity(0.0);
+        spinBtn.setOpacity(0.6);
     }
 
     public void onIncreaseBetButtonPressed(MouseEvent mouseEvent) {

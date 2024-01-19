@@ -14,9 +14,9 @@
             <Image url="@../../../../image/Background.png" />
          </image>
       </ImageView>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="484.0" opacity="0.9" prefHeight="53.0" prefWidth="137.0" text="SPIN!" textAlignment="CENTER">
+      <Label fx:id="spinLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="243.0" layoutY="484.0" opacity="0.9" prefHeight="53.0" prefWidth="137.0" textAlignment="CENTER">
          <font>
-            <Font name="Baskerville Bold" size="38.0" />
+            <Font name="Baskerville Bold" size="30.0" />
          </font>
       </Label>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="432.0" layoutY="493.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="CREDITS:" textAlignment="CENTER">
@@ -58,22 +58,22 @@
       <ImageView fx:id="symbol3ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="569.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol4ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="698.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol5ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="825.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
-      <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0" >
+      <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0">
          <style>
             -fx-focus-color: transparent;
          </style>
       </Button>
-      <Button fx:id="increaseBetBtn" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#onIncreaseBetButtonClick" onMousePressed="#onIncreaseBetButtonPressed" onMouseReleased="#onIncreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0" >
+      <Button fx:id="increaseBetBtn" layoutX="573.0" layoutY="486.0" mnemonicParsing="false" onAction="#onIncreaseBetButtonClick" onMousePressed="#onIncreaseBetButtonPressed" onMouseReleased="#onIncreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0">
          <style>
             -fx-focus-color: transparent;
          </style>
       </Button>
-      <Button fx:id="spinBtn" layoutX="240.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSpinButtonClick" onMousePressed="#onSpinButtonPressed" onMouseReleased="#onSpinButtonReleased" opacity="0.0" prefHeight="46.0" prefWidth="140.0" >
+      <Button fx:id="spinBtn" layoutX="240.0" layoutY="488.0" mnemonicParsing="false" onAction="#onSpinButtonClick" onMousePressed="#onSpinButtonPressed" onMouseReleased="#onSpinButtonReleased" opacity="0.0" prefHeight="46.0" prefWidth="140.0">
          <style>
             -fx-focus-color: transparent;
          </style>
       </Button>
-      <Button fx:id="infoBtn" layoutX="243.0" layoutY="213.0" mnemonicParsing="false" onAction="#onInfoButtonClick" onMousePressed="#onInfoButtonPressed" onMouseReleased="#onInfoButtonReleased" opacity="0.0" prefHeight="30.0" prefWidth="29.0" >
+      <Button fx:id="infoBtn" layoutX="243.0" layoutY="213.0" mnemonicParsing="false" onAction="#onInfoButtonClick" onMousePressed="#onInfoButtonPressed" onMouseReleased="#onInfoButtonReleased" opacity="0.0" prefHeight="30.0" prefWidth="29.0">
          <style>
             -fx-focus-color: transparent;
          </style>
