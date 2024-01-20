@@ -34,7 +34,7 @@ public class GameManagerTest {
 
     @Test
     public void testMoneyReturn() {
-        //simulating 1000 x 10000 spins
+        //simulating 1000 x 10000 (with 1 unit bet amount) spins
         List<GameResult> allGameResults = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
             GameManager manager = new GameManager(START_CREDITS);

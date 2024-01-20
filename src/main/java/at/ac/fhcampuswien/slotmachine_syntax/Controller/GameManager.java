@@ -13,15 +13,13 @@ public class GameManager {
     private int currentBetIndex;
     private double balance;
     private final List<Integer> betRange;
-    private List<Symbol> allSymbols;
+    private final List<Symbol> allSymbols;
 
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
     private final double DEFAULT_CHANCE_OF_X3 = 0.32;
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
     private final double DEFAULT_CHANCE_OF_X4 = 0.10;
 
-
-    //constructors
     public GameManager(double balance) {
         this.balance = balance;
         //betting possibilities are predefined
@@ -40,7 +38,7 @@ public class GameManager {
     }
 
     public int increaseBet() {
-        if (currentBetIndex < betRange.size() -1) {
+        if (currentBetIndex < betRange.size() - 1) {
             currentBetIndex++;
         }
 
@@ -92,18 +90,23 @@ public class GameManager {
 
 
     public Symbol pickRandomSymbol(List<Symbol> symbolsToExclude) {
+        //zufälliger wert von 0.0 bis 1.0 wird generiert
+        Random random = new Random();
+        double randomValue = random.nextDouble();
+
+
         List<Symbol> elements = new ArrayList<>(allSymbols);
         //Wenn wir ein oder mehr Symbol ausschließen wollen aus der Zufallswahl
         if (!symbolsToExclude.isEmpty()) {
+            for (Symbol symbolToExclude : symbolsToExclude) {
+                //randomValue muss reduziert werden um den appearFactor der ausgeschlossenen Symbole
+                randomValue = randomValue - symbolToExclude.getAppearFactor();
+            }
             elements.removeAll(symbolsToExclude);
         }
 
         //Liste muss zufällig angeordnet werden
         Collections.shuffle(elements);
-
-        //zufälliger wert von 0.0 bis 1.0 wird generiert
-        Random random = new Random();
-        double randomValue = random.nextDouble();
 
         //die kumulative Wahrscheinlichkeit sorgt dafür das die appearChance von allen Symbolen berücksichtigt wird
         double cumulativeProbability = 0.0;
@@ -119,6 +122,7 @@ public class GameManager {
         // Shouldn't reach here, but return the last element just in case
         return elements.get(elements.size() - 1);
     }
+
     public GameResult calculateWinnings(List<Symbol> spinResult) {
         //das erste Symbol ist ausschlaggebend für das Endergebnis
         Symbol firstSymbol = spinResult.get(0);
