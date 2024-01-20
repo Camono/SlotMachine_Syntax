@@ -6,9 +6,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
 
-import java.util.Collections;
-import java.util.concurrent.TimeUnit;
-
 public class WinController {
     @FXML
     private Label amountWonLabel;

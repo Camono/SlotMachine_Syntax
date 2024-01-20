@@ -7,15 +7,17 @@ import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
 import javafx.animation.KeyFrame;
 import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
@@ -65,7 +67,7 @@ public class SlotMachineController {
     @FXML
     private Button infoBtn;
 
-    private GameManager gameManager = new GameManager(1000);
+    public GameManager gameManager = new GameManager(1000);
     private final int cooldownDuration = 3; // in seconds
     private int remainingCooldown;
     private Timeline cooldownTimeline;
@@ -82,14 +84,6 @@ public class SlotMachineController {
         playSpinAnimation(symbol3ImageView, 2);
         playSpinAnimation(symbol4ImageView, 2);
         playSpinAnimation(symbol5ImageView, 2);
-
-        List<Symbol> spinResults = gameManager.createSpinResult();
-        GameResult gameResult = gameManager.calculateWinnings(spinResults);
-        setSymbolImages(gameResult.getSymbols());
-        balanceLabel.setText(gameResult.getNewBalance() + "");
-        if(gameResult.getProfit() >= 100) {
-            openWinPopup(gameResult.getProfit());
-        }
     }
 
     private void playSpinAnimation(ImageView imageView, int durationInSeconds) {
@@ -119,6 +113,17 @@ public class SlotMachineController {
                         spinLabel.setText("SPIN");
                         spinBtn.setOpacity(0.0);
                         spinBtn.setStyle("-fx-background-color: transparent;");
+
+                        List<Symbol> spinResults = gameManager.createSpinResult();
+                        GameResult gameResult = gameManager.calculateWinnings(spinResults);
+                        setSymbolImages(gameResult.getSymbols());
+                        if (gameResult.getProfit() >= 100) {
+                            openWinPopup(gameResult.getProfit());
+                            balanceLabel.setText(gameResult.getNewBalance() + "");
+                        } else if (gameResult.getNewBalance() <= 0) {
+                            openGameOverPopup();
+                            balanceLabel.setText("0");
+                        }
                     }
                 })
         );
@@ -270,9 +275,37 @@ public class SlotMachineController {
             stage.setTitle("Congratulations!");
             stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
             stage.show();
+            spinBtn.setDisable(true);
+            spinBtn.setOpacity(0.5);
+            spinBtn.setStyle("-fx-background-color: #232b2d;");
 
             WinController winCon = fxmlLoader.getController();
             winCon.printAmount(amount);
+
+            stage.setOnCloseRequest(event -> {
+                spinBtn.setDisable(false);
+                spinBtn.setOpacity(0.0);
+                spinBtn.setStyle("-fx-background-color: transparent;");
+            });
+        } catch (IOException e) {
+            System.out.println("Failed to load Win-Popup.");
+        }
+    }
+
+    public void openGameOverPopup() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/gameOver.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Game Over!");
+            stage.setScene(new Scene(fxmlLoader.load(), 715, 512));
+            stage.show();
+            spinBtn.setDisable(true);
+            spinBtn.setOpacity(0.5);
+            spinBtn.setStyle("-fx-background-color: #232b2d;");
+
+            stage.setOnCloseRequest(event -> {
+                Platform.exit();
+            });
         } catch (IOException e) {
             System.out.println("Failed to load Win-Popup.");
         }

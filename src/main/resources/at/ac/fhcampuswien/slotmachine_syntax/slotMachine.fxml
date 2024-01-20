@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="675.0" maxWidth="1180.0" minHeight="675.0" minWidth="1180.0" prefHeight="675.0" prefWidth="1180.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.Controller.SlotMachineController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.Controller.SlotMachineController">
    <children>
       <ImageView fitHeight="675.0" fitWidth="1180.0">
          <image>
@@ -22,7 +22,8 @@
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="432.0" layoutY="493.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="CREDITS:" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="14.0" />
-         </font></Label>
+         </font>
+      </Label>
       <Label fx:id="balanceLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="439.0" layoutY="506.0" opacity="0.9" prefHeight="25.0" prefWidth="78.0" text="1000.0">
          <font>
             <Font name="Baskerville Bold" size="14.0" />
@@ -61,7 +62,8 @@
       <ImageView fx:id="soundSymbolImageView" fitHeight="20.0" fitWidth="22.0" layoutX="247.0" layoutY="255.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../../../../image/Audio.png" />
-         </image></ImageView>
+         </image>
+      </ImageView>
       <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0">
          <style>
             -fx-focus-color: transparent;
