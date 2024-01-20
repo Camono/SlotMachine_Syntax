@@ -183,5 +183,4 @@ public class GameManager {
     public int getBet() {
         return betRange.get(currentBetIndex);
     }
-
 }

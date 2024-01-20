@@ -5,7 +5,7 @@ import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
 import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
+import javafx.animation.RotateTransition;
 import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -18,17 +18,17 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.scene.transform.Rotate;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 
-
 public class SlotMachineController {
 
+    public ImageView soundSymbolImageView;
     @FXML
     private ImageView symbol1ImageView;
 
@@ -69,17 +69,35 @@ public class SlotMachineController {
     private final int cooldownDuration = 3; // in seconds
     private int remainingCooldown;
     private Timeline cooldownTimeline;
+    private boolean soundEnabled = true;
 
     @FXML
     private void onSpinButtonClick() {
-        playSound("src/main/resources/sounds/SpinSound.mp3"); // Relative path to the MP3 file
+        playSound("src/main/resources/sounds/SpinSound.mp3");
         handleSpinButtonCountdown();
+
+        // Trigger spin animations
+        playSpinAnimation(symbol1ImageView, 2);
+        playSpinAnimation(symbol2ImageView, 2);
+        playSpinAnimation(symbol3ImageView, 2);
+        playSpinAnimation(symbol4ImageView, 2);
+        playSpinAnimation(symbol5ImageView, 2);
+
         List<Symbol> spinResults = gameManager.createSpinResult();
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
         setSymbolImages(gameResult.getSymbols());
         balanceLabel.setText(gameResult.getNewBalance() + "");
     }
 
+    private void playSpinAnimation(ImageView imageView, int durationInSeconds) {
+        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(durationInSeconds), imageView);
+        rotateTransition.setAxis(Rotate.Y_AXIS);
+        rotateTransition.setFromAngle(0);
+        rotateTransition.setToAngle(360);
+        rotateTransition.setCycleCount(2);
+        rotateTransition.setAutoReverse(false);
+        rotateTransition.play();
+    }
     private void handleSpinButtonCountdown() {
         spinLabel.setText("3");
         spinBtn.setDisable(true);
@@ -137,6 +155,9 @@ public class SlotMachineController {
     @FXML
     public void initialize() {
         setSymbolImages(Collections.emptyList());
+        Image soundOnImage = new Image("image/Audio.png");
+        soundSymbolImageView.setImage(soundOnImage);
+        centerImage(soundSymbolImageView);
         betLabel.setText(gameManager.getBet() + "");
         spinLabel.setText("SPIN");
     }
@@ -215,22 +236,32 @@ public class SlotMachineController {
     }
 
     public void playSound(String soundFilePath) {
-        Media media = new Media(new File(soundFilePath).toURI().toString());
-        MediaPlayer mediaPlayer = new MediaPlayer(media);
+        if (soundEnabled) {
+            Media media = new Media(new File(soundFilePath).toURI().toString());
+            MediaPlayer mediaPlayer = new MediaPlayer(media);
 
-        mediaPlayer.setOnReady(() -> {
-            mediaPlayer.play();
+            mediaPlayer.setOnReady(() -> {
+                mediaPlayer.play();
 
-            // Stop the sound after 3 seconds
-            mediaPlayer.setOnEndOfMedia(() -> {
-                mediaPlayer.stop();
-                mediaPlayer.dispose();
+                // Stop the sound after 3 seconds
+                mediaPlayer.setOnEndOfMedia(() -> {
+                    mediaPlayer.stop();
+                    mediaPlayer.dispose();
+                });
+
+                mediaPlayer.setStopTime(Duration.seconds(3));
             });
-
-            mediaPlayer.setStopTime(Duration.seconds(3));
-        });
+        }
     }
 
     public void onSoundButtonClick(ActionEvent actionEvent) {
+        soundEnabled = !soundEnabled; // Toggle sound on/off
+        if (soundEnabled) {
+            Image soundOnImage = new Image("image/Audio.png");
+            soundSymbolImageView.setImage(soundOnImage);
+        } else {
+            Image soundOffImage = new Image("image/AudioMute.png");
+            soundSymbolImageView.setImage(soundOffImage);
+        }
     }
 }
