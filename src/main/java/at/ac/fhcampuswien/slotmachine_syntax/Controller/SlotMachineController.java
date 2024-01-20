@@ -87,6 +87,9 @@ public class SlotMachineController {
         GameResult gameResult = gameManager.calculateWinnings(spinResults);
         setSymbolImages(gameResult.getSymbols());
         balanceLabel.setText(gameResult.getNewBalance() + "");
+        if(gameResult.getProfit() >= 100) {
+            openWinPopup(gameResult.getProfit());
+        }
     }
 
     private void playSpinAnimation(ImageView imageView, int durationInSeconds) {
@@ -110,7 +113,6 @@ public class SlotMachineController {
                     remainingCooldown--;
                     spinLabel.setText("" + remainingCooldown);
 
-
                     if (remainingCooldown == 0) {
                         cooldownTimeline.stop();
                         spinBtn.setDisable(false);
@@ -120,7 +122,6 @@ public class SlotMachineController {
                     }
                 })
         );
-
         cooldownTimeline.setCycleCount(cooldownDuration);
         cooldownTimeline.play();
     }
@@ -147,7 +148,6 @@ public class SlotMachineController {
             stage.show();
         } catch (IOException e) {
             System.out.println("Failed to load Information panel.");
-            ;
         }
     }
 
@@ -155,8 +155,6 @@ public class SlotMachineController {
     @FXML
     public void initialize() {
         setSymbolImages(Collections.emptyList());
-        Image soundOnImage = new Image("image/Audio.png");
-        soundSymbolImageView.setImage(soundOnImage);
         centerImage(soundSymbolImageView);
         betLabel.setText(gameManager.getBet() + "");
         spinLabel.setText("SPIN");
@@ -262,6 +260,21 @@ public class SlotMachineController {
         } else {
             Image soundOffImage = new Image("image/AudioMute.png");
             soundSymbolImageView.setImage(soundOffImage);
+        }
+    }
+
+    public void openWinPopup(double amount) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/win.fxml"));
+            Stage stage = new Stage();
+            stage.setTitle("Congratulations!");
+            stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
+            stage.show();
+
+            WinController winCon = fxmlLoader.getController();
+            winCon.printAmount(amount);
+        } catch (IOException e) {
+            System.out.println("Failed to load Win-Popup.");
         }
     }
 }

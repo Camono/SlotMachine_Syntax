@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane maxHeight="512.0" maxWidth="896.0" minHeight="512.0" minWidth="896.0" prefHeight="512.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.Controller.WinController">
+   <children>
+      <ImageView fitHeight="512.0" fitWidth="896.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../image/Info.png" />
+         </image></ImageView>
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="290.0" layoutY="40.0" prefHeight="74.0" prefWidth="317.0" text="JACKPOT!" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="56.0" />
+         </font>
+      </Label>
+      <Label fx:id="amountWonLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="242.0" layoutY="240.0" prefHeight="114.0" prefWidth="417.0" text="0.0" textAlignment="CENTER">
+         <font>
+            <Font name="Baskerville Bold" size="96.0" />
+         </font>
+      </Label>
+      <Label fx:id="youWonLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="41.0" layoutY="166.0" prefHeight="74.0" prefWidth="814.0" text="IN THIS ROUND YOU WON" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Baskerville Bold" size="56.0" />
+         </font>
+      </Label>
+      <Label fx:id="creditsLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="217.0" layoutY="356.0" prefHeight="74.0" prefWidth="466.0" text="CREDITS!" textAlignment="CENTER" visible="false">
+         <font>
+            <Font name="Baskerville Bold" size="56.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

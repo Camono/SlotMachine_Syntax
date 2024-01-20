@@ -30,7 +30,7 @@
       </Label>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="710.0" layoutY="493.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="AMOUNT:" textAlignment="CENTER">
          <font>
-            <Font size="14.0" />
+            <Font name="Baskerville Bold" size="14.0" />
          </font>
       </Label>
       <Label alignment="CENTER" contentDisplay="CENTER" layoutX="572.0" layoutY="486.0" opacity="0.9" prefHeight="46.0" prefWidth="90.0" text="UP BET" textAlignment="CENTER">
@@ -38,12 +38,12 @@
             <Font name="Baskerville Bold" size="14.0" />
          </font>
       </Label>
-      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="848.0" layoutY="486.0" opacity="0.9" prefHeight="46.0" prefWidth="90.0" text="DOWN BET" textAlignment="CENTER">
+      <Label fx:id="betLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="716.0" layoutY="506.0" opacity="0.9" prefHeight="25.0" prefWidth="78.0" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="14.0" />
          </font>
       </Label>
-      <Label fx:id="betLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="716.0" layoutY="506.0" opacity="0.9" prefHeight="25.0" prefWidth="78.0" textAlignment="CENTER">
+      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="848.0" layoutY="486.0" opacity="0.9" prefHeight="46.0" prefWidth="90.0" text="DOWN BET" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="14.0" />
          </font>
@@ -58,7 +58,10 @@
       <ImageView fx:id="symbol3ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="569.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol4ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="698.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol5ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="825.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
-      <ImageView fx:id="soundSymbolImageView" fitHeight="30.0" fitWidth="30.0" layoutX="243.0" layoutY="249.0" opacity="0.7" pickOnBounds="true" preserveRatio="true" />
+      <ImageView fx:id="soundSymbolImageView" fitHeight="20.0" fitWidth="22.0" layoutX="247.0" layoutY="255.0" opacity="0.9" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/Audio.png" />
+         </image></ImageView>
       <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0">
          <style>
             -fx-focus-color: transparent;
@@ -79,7 +82,6 @@
             -fx-focus-color: transparent;
          </style>
       </Button>
-      <Button layoutX="232.0" layoutY="414.0" mnemonicParsing="false" opacity="0.0" text="Button" />
       <Button fx:id="soundBtn" layoutX="242.0" layoutY="249.0" mnemonicParsing="false" onAction="#onSoundButtonClick" opacity="0.0" prefHeight="30.0" prefWidth="30.0" />
    </children>
 </AnchorPane>
