@@ -16,8 +16,6 @@ import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.transform.Rotate;
@@ -65,17 +63,22 @@ public class SlotMachineController {
     private Label spinLabel;
 
     @FXML
+    private Label profitLabel;
+
+    @FXML
     private Button infoBtn;
 
     public GameManager gameManager = new GameManager(1000);
-    private final int cooldownDuration = 3; // in seconds
     private int remainingCooldown;
     private Timeline cooldownTimeline;
     private boolean soundEnabled = true;
+    MediaPlayer spinSound;
+    MediaPlayer soundEffect;
+    MediaPlayer backgroundMusic;
 
     @FXML
     private void onSpinButtonClick() {
-        playSound("src/main/resources/sounds/SpinSound.mp3");
+        playSpinSound("src/main/resources/sounds/SpinSound.mp3");
         handleSpinButtonCountdown();
 
         // Trigger spin animations
@@ -100,6 +103,8 @@ public class SlotMachineController {
         spinBtn.setDisable(true);
         spinBtn.setStyle("-fx-background-color: #232b2d;");
 
+        // in seconds
+        int cooldownDuration = 3;
         remainingCooldown = cooldownDuration;
 
         cooldownTimeline = new Timeline(
@@ -123,6 +128,17 @@ public class SlotMachineController {
                         } else if (gameResult.getNewBalance() <= 0) {
                             openGameOverPopup();
                             balanceLabel.setText("0");
+                        } else {
+                            if (gameResult.getProfit() >= 15) {
+                                playSound("src/main/resources/sounds/Nice.mp3");
+                            } else if (gameResult.getProfit() == 0){
+                                playSound("src/main/resources/sounds/Lost.mp3");
+                            }
+                            balanceLabel.setText(gameResult.getNewBalance() + "");
+                        } if (gameResult.getProfit() > 0) {
+                            profitLabel.setText("+" + gameResult.getProfit());
+                        } else {
+                            profitLabel.setText("+0");
                         }
                     }
                 })
@@ -163,6 +179,7 @@ public class SlotMachineController {
         centerImage(soundSymbolImageView);
         betLabel.setText(gameManager.getBet() + "");
         spinLabel.setText("SPIN");
+        playBackground("src/main/resources/sounds/BackgroundMusic.mp3");
     }
 
     private void setSymbolImages(List<Symbol> symbols) {
@@ -241,20 +258,30 @@ public class SlotMachineController {
     public void playSound(String soundFilePath) {
         if (soundEnabled) {
             Media media = new Media(new File(soundFilePath).toURI().toString());
-            MediaPlayer mediaPlayer = new MediaPlayer(media);
-
-            mediaPlayer.setOnReady(() -> {
-                mediaPlayer.play();
-
-                // Stop the sound after 3 seconds
-                mediaPlayer.setOnEndOfMedia(() -> {
-                    mediaPlayer.stop();
-                    mediaPlayer.dispose();
-                });
-
-                mediaPlayer.setStopTime(Duration.seconds(3));
-            });
+            soundEffect = new MediaPlayer(media);
+            soundEffect.play();
         }
+    }
+
+    public void playSpinSound(String soundFilePath) {
+        if (soundEnabled) {
+            Media media = new Media(new File(soundFilePath).toURI().toString());
+            spinSound = new MediaPlayer(media);
+            spinSound.play();
+        }
+    }
+
+    public void playBackground(String soundFilePath) {
+        Media media = new Media(new File(soundFilePath).toURI().toString());
+        backgroundMusic = new MediaPlayer(media);
+        backgroundMusic.setOnEndOfMedia(new Runnable() {
+            @Override
+            public void run() {
+                backgroundMusic.seek(Duration.ZERO);
+                backgroundMusic.play();
+            }
+        });
+        backgroundMusic.setAutoPlay(true);
     }
 
     public void onSoundButtonClick(ActionEvent actionEvent) {
