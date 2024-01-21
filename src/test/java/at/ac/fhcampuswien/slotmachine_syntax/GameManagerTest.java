@@ -83,60 +83,60 @@ public class GameManagerTest {
         long countWILD = symbols.stream().filter(symbol -> symbol.getSymbolType() == SymbolType.WILD).count();
 
         //faktor um Symbol Erscheinung in % zu ermitteln
-        double factor = RANDOM_DISTRIBUTION_QUANTITY / 100.0;
+        double factor = RANDOM_DISTRIBUTION_QUANTITY;
 
         //Toleranz der Abweichung
         double maxDeviation = 0.25;
 
         //countU1 must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countU1 / factor >= manager.getSymbol(SymbolType.U1).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countU1 / factor <= manager.getSymbol(SymbolType.U1).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countU1 / factor >= manager.getSymbol(SymbolType.U1).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countU1 / factor <= manager.getSymbol(SymbolType.U1).getAppearFactor() + maxDeviation)
         );
 
         //countU6 must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countU6 / factor >= manager.getSymbol(SymbolType.U6).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countU6 / factor <= manager.getSymbol(SymbolType.U6).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countU6 / factor >= manager.getSymbol(SymbolType.U6).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countU6 / factor <= manager.getSymbol(SymbolType.U6).getAppearFactor() + maxDeviation)
         );
 
         //countREDBULL must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countREDBULL / factor >= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countREDBULL / factor <= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countREDBULL / factor >= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countREDBULL / factor <= manager.getSymbol(SymbolType.RED_BULL).getAppearFactor() + maxDeviation)
         );
 
         //countMARLBORO must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countMARLBORO / factor >= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countMARLBORO / factor <= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countMARLBORO / factor >= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countMARLBORO / factor <= manager.getSymbol(SymbolType.MARLBORO).getAppearFactor() + maxDeviation)
         );
 
         //countGIS must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countGIS / factor >= manager.getSymbol(SymbolType.GIS).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countGIS / factor <= manager.getSymbol(SymbolType.GIS).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countGIS / factor >= manager.getSymbol(SymbolType.GIS).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countGIS / factor <= manager.getSymbol(SymbolType.GIS).getAppearFactor() + maxDeviation)
         );
 
         //countLUGNER must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countLUGNER / factor >= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countLUGNER / factor <= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countLUGNER / factor >= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countLUGNER / factor <= manager.getSymbol(SymbolType.LUGNER).getAppearFactor() + maxDeviation)
         );
 
         //countWILD must appear within their appearChance +/- 0.25%
         assertAll(
-                () -> assertTrue(countWILD / factor >= manager.getSymbol(SymbolType.WILD).getAppearFactor() * 100 - maxDeviation),
-                () -> assertTrue(countWILD / factor <= manager.getSymbol(SymbolType.WILD).getAppearFactor() * 100 + maxDeviation)
+                () -> assertTrue(countWILD / factor >= manager.getSymbol(SymbolType.WILD).getAppearFactor() - maxDeviation),
+                () -> assertTrue(countWILD / factor <= manager.getSymbol(SymbolType.WILD).getAppearFactor() + maxDeviation)
         );
 
-        System.out.println("U1: " + (double) countU1 / factor + "%");
-        System.out.println("U6: " + (double) countU6 / factor + "%");
-        System.out.println("REDBULL: " + (double) countREDBULL / factor + "%");
-        System.out.println("MARLBORO: " + (double) countMARLBORO / factor + "%");
-        System.out.println("GIS: " + (double) countGIS / factor + "%");
-        System.out.println("LUGNER: " + (double) countLUGNER / factor + "%");
-        System.out.println("WILD: " + (double) countWILD / factor + "%");
+        System.out.println("U1: " + (double) countU1 / factor * 100 + "%");
+        System.out.println("U6: " + (double) countU6 / factor * 100 + "%");
+        System.out.println("REDBULL: " + (double) countREDBULL / factor * 100 + "%");
+        System.out.println("MARLBORO: " + (double) countMARLBORO / factor * 100 + "%");
+        System.out.println("GIS: " + (double) countGIS / factor * 100 + "%");
+        System.out.println("LUGNER: " + (double) countLUGNER / factor * 100 + "%");
+        System.out.println("WILD: " + (double) countWILD / factor * 100 + "%");
 
     }
 }
