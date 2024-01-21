@@ -1,7 +1,7 @@
-package at.ac.fhcampuswien.slotmachine_syntax.util;
+package at.ac.fhcampuswien.slotmachine_syntax.Util;
 
-import at.ac.fhcampuswien.slotmachine_syntax.model.Symbol;
-import at.ac.fhcampuswien.slotmachine_syntax.model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 

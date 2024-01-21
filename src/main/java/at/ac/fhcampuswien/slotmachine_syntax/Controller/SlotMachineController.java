@@ -1,8 +1,8 @@
-package at.ac.fhcampuswien.slotmachine_syntax.controller;
+package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.model.GameResult;
-import at.ac.fhcampuswien.slotmachine_syntax.model.Symbol;
-import at.ac.fhcampuswien.slotmachine_syntax.model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
 import javafx.animation.*;
 import javafx.application.Platform;

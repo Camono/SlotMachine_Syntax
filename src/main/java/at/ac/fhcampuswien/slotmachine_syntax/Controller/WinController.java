@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.slotmachine_syntax.controller;
+package at.ac.fhcampuswien.slotmachine_syntax.Controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;

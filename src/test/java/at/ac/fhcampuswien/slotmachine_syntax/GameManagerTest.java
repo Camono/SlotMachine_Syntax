@@ -1,9 +1,9 @@
 package at.ac.fhcampuswien.slotmachine_syntax;
 
-import at.ac.fhcampuswien.slotmachine_syntax.controller.GameManager;
-import at.ac.fhcampuswien.slotmachine_syntax.model.GameResult;
-import at.ac.fhcampuswien.slotmachine_syntax.model.Symbol;
-import at.ac.fhcampuswien.slotmachine_syntax.model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;

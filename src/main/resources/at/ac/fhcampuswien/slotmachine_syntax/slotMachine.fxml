@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.controller.SlotMachineController">
+<AnchorPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.Controller.SlotMachineController">
    <children>
       <ImageView fitHeight="675.0" fitWidth="1180.0">
          <image>

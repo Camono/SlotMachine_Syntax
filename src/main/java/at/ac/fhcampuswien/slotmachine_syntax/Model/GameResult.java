@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.slotmachine_syntax.model;
+package at.ac.fhcampuswien.slotmachine_syntax.Model;
 
 import java.util.List;
 
