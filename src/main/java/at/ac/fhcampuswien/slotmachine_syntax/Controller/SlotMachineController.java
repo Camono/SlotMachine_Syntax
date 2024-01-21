@@ -18,6 +18,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import java.awt.*;
 import java.io.File;
@@ -134,7 +135,7 @@ public class SlotMachineController {
                 profitLabel.setText("+" + gameResult.getProfit());
                 balanceLabel.setText(gameResult.getNewBalance() + "");
             // Game Over Popup
-            } else if (gameResult.getNewBalance() <= 0) {
+            } else if (gameResult.getNewBalance() <= 950) {
                 try {
                     openGameOverPopup();
                 } catch (IOException ex) {
@@ -389,7 +390,7 @@ public class SlotMachineController {
             FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/gameOver.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Game Over!");
-            stage.setScene(new Scene(fxmlLoader.load(), 715, 512));
+            stage.setScene(new Scene(fxmlLoader.load(), 550, 510));
             stage.setResizable(false);
             stage.show();
 
