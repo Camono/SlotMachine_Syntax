@@ -14,6 +14,7 @@ public class SlotMachineApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load(), 1180, 675);
         stage.setScene(scene);
         stage.setTitle("Slot Machine");
+        stage.setResizable(false);
         stage.show();
     }
 

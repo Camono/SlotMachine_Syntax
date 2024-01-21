@@ -1,11 +1,11 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Model;
+package at.ac.fhcampuswien.slotmachine_syntax.model;
 
 import java.util.List;
 
 public class GameResult {
-    private double profit;
-    private double newBalance;
-    private List<Symbol> symbols;
+    private final double profit;
+    private final double newBalance;
+    private final List<Symbol> symbols;
 
     public GameResult(double profit, double newBalance, List<Symbol> symbols) {
         this.profit = profit;

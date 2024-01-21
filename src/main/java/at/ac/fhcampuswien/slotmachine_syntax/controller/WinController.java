@@ -1,10 +1,12 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Controller;
+package at.ac.fhcampuswien.slotmachine_syntax.controller;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.util.Duration;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class WinController {
     @FXML
@@ -16,19 +18,20 @@ public class WinController {
     @FXML
     private Label creditsLabel;
 
-    private int start;
     private Timeline animationTimeline;
     private Timeline blinkingTimeline;
 
     public void printAmount(double amount) {
-        start = 0;
+        // IntelliJ hat AtomicInteger empfohlen wegen Lambda-Expression
+        // ein AtomicInteger ermöglicht thread-sichere Operationen auf einer Ganzzahl ohne Datenkonflikte
+        AtomicInteger start = new AtomicInteger();
 
         animationTimeline = new Timeline(
                 new KeyFrame(Duration.millis(20), event -> {
-                    start++;
+                    start.getAndIncrement();
                     amountWonLabel.setText("" + start);
 
-                    if (start >= amount) {
+                    if (start.get() >= amount) {
                         animationTimeline.stop();
                         blinkingTimeline.play();
                         youWonLabel.setVisible(true);

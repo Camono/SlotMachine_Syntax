@@ -1,4 +1,4 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Model;
+package at.ac.fhcampuswien.slotmachine_syntax.model;
 
 import java.util.Objects;
 
@@ -6,19 +6,19 @@ import java.util.Objects;
  * This class is used for the displayed symbols of the slot machine.
  * each variable represents a logic for the spinning wheels including appearChances,
  * multipliers and images.
- * Lower worth symbol types have higher chances to be rolled, where as better ones like Lugner
+ * Lower worth symbol types have higher chances to be rolled, whereas better ones like Lugner
  * are harder to get.
  */
 
 public class Symbol {
-    private String imagePath;
-    private SymbolType symbolType;
-    private double appearFactor;
-    private double multiplierX3;
-    private double multiplierX4;
-    private double multiplierX5;
-    private boolean isWild;
-    private boolean isFreeSpin;
+    private final String imagePath;
+    private final SymbolType symbolType;
+    private final double appearFactor;
+    private final double multiplierX3;
+    private final double multiplierX4;
+    private final double multiplierX5;
+    private final boolean isWild;
+    private final boolean isFreeSpin;
 
     public Symbol(String imagePath, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
         this.imagePath = imagePath;
@@ -64,15 +64,19 @@ public class Symbol {
     }
 
     @Override
+    public int hashCode() {
+        return Objects.hash(imagePath, symbolType, appearFactor, multiplierX3, multiplierX4, multiplierX5, isWild, isFreeSpin);
+    }
+
+    @Override
     public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
-        if (!(obj instanceof Symbol)) {
+        if (!(obj instanceof Symbol symbolToCompare)) {
             return false;
         }
 
-        Symbol symbolToCompare = (Symbol) obj;
         return Objects.equals(symbolToCompare.getSymbolType(), this.symbolType);
     }
 

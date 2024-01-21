@@ -1,9 +1,9 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Controller;
+package at.ac.fhcampuswien.slotmachine_syntax.controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
-import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
-import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
-import at.ac.fhcampuswien.slotmachine_syntax.Util.JsonDataLoader;
+import at.ac.fhcampuswien.slotmachine_syntax.model.GameResult;
+import at.ac.fhcampuswien.slotmachine_syntax.model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.util.JsonDataLoader;
 
 import java.util.*;
 
@@ -13,12 +13,13 @@ public class GameManager {
     private int currentBetIndex;
     private double balance;
     private final List<Integer> betRange;
-    private List<Symbol> allSymbols;
+    private final List<Symbol> allSymbols;
+
 
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
-    private final double DEFAULT_CHANCE_OF_X3 = 0.33;
+    private static final double DEFAULT_CHANCE_OF_X3 = 0.33;
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
-    private final double DEFAULT_CHANCE_OF_X4 = 0.17;
+    private static final double DEFAULT_CHANCE_OF_X4 = 0.17;
 
 
     //constructors
@@ -58,8 +59,7 @@ public class GameManager {
         //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat, darf die Chance, dass diese Kombination eintritt nicht 1/100 = 1% sein, sondern muss geringer sein -> house edge
         double chanceOfX5 = getChanceOfX5(firstSymbol);
 
-        Random random = new Random();
-        double randomValue = random.nextDouble();
+        double randomValue = getRandomValue();
 
         if (chanceOfX5 > randomValue) {
             //add 4 more same symbols to the spin result
@@ -102,8 +102,7 @@ public class GameManager {
         Collections.shuffle(elements);
 
         //zufälliger wert von 0.0 bis 1.0 wird generiert
-        Random random = new Random();
-        double randomValue = random.nextDouble();
+        double randomValue = getRandomValue();
 
         //die kumulative Wahrscheinlichkeit sorgt dafür das die appearChance von allen Symbolen berücksichtigt wird
         double cumulativeProbability = 0.0;
@@ -119,6 +118,12 @@ public class GameManager {
         // Shouldn't reach here, but return the last element just in case
         return elements.get(elements.size() - 1);
     }
+
+    private double getRandomValue() {
+        Random random = new Random();
+        return random.nextDouble();
+    }
+
     public GameResult calculateWinnings(List<Symbol> spinResult) {
         //das erste Symbol ist ausschlaggebend für das Endergebnis
         Symbol firstSymbol = spinResult.get(0);

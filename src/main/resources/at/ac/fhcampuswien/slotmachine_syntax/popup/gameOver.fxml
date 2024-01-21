@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="512.0" maxWidth="896.0" minHeight="512.0" minWidth="715.0" prefHeight="512.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.Controller.GameOverController">
+<AnchorPane maxHeight="512.0" maxWidth="896.0" minHeight="512.0" minWidth="715.0" prefHeight="512.0" prefWidth="715.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="at.ac.fhcampuswien.slotmachine_syntax.controller.GameOverController">
    <children>
       <ImageView fitHeight="512.0" fitWidth="715.0" pickOnBounds="true">
          <image>

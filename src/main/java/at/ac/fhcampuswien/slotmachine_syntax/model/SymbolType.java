@@ -1,7 +1,7 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Model;
+package at.ac.fhcampuswien.slotmachine_syntax.model;
 
 /**
- * SymboType enum class is required to allow different symbol names.
+ * SymbolType enum class is required to allow different symbol names.
  */
 
 public enum SymbolType {

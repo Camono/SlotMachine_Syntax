@@ -1,15 +1,11 @@
-package at.ac.fhcampuswien.slotmachine_syntax.Controller;
+package at.ac.fhcampuswien.slotmachine_syntax.controller;
 
-import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
-import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
-import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.model.GameResult;
+import at.ac.fhcampuswien.slotmachine_syntax.model.Symbol;
+import at.ac.fhcampuswien.slotmachine_syntax.model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
-import javafx.animation.Interpolator;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
+import javafx.animation.*;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,12 +14,12 @@ import javafx.scene.control.Label;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -31,11 +27,14 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class SlotMachineController {
 
-    public ImageView soundSymbolImageView;
-    public ImageView hypothekeSymbolImageView;
+    @FXML
+    private ImageView soundSymbolImageView;
+    @FXML
+    private ImageView mortgageSymbolImageView;
     @FXML
     private ImageView musicSymbolImageView;
     @FXML
@@ -77,13 +76,15 @@ public class SlotMachineController {
     @FXML
     private Button infoBtn;
 
-    public GameManager gameManager = new GameManager(1000);
-    private int remainingCooldown;
+    private final GameManager gameManager = new GameManager(1000);
+
     private Timeline cooldownTimeline;
     private boolean soundEnabled = true;
-    MediaPlayer spinSound;
-    MediaPlayer soundEffect;
-    MediaPlayer backgroundMusic;
+
+    // MediaPlayer darf nicht lokal sein (Probleme mit Sound)
+    private MediaPlayer spinSound;
+    private MediaPlayer soundEffect;
+    private MediaPlayer backgroundMusic;
 
     @FXML
     private void onSpinButtonClick() {
@@ -91,11 +92,14 @@ public class SlotMachineController {
         balanceLabel.setText(gameManager.getBalance()-gameManager.getBet() + "");
         decreaseBetBtn.setDisable(true);
         increaseBetBtn.setDisable(true);
+
+        List<Symbol> spinResults = gameManager.createSpinResult();
+        GameResult gameResult = gameManager.calculateWinnings(spinResults);
         handleSpinButtonCountdown();
-        animateSymbolsBeforeRevealingResults();
+        animateSymbolsBeforeRevealingResults(gameResult);
     }
 
-    private void animateSymbolsBeforeRevealingResults() {
+    private void animateSymbolsBeforeRevealingResults(GameResult gameResult) {
         Timeline animationTimeline = new Timeline(new KeyFrame(
                 Duration.millis(250),
                 event -> {
@@ -115,30 +119,42 @@ public class SlotMachineController {
         animationTimeline.setCycleCount(10);
 
         animationTimeline.setOnFinished(e -> {
-            List<Symbol> spinResults = gameManager.createSpinResult();
-            GameResult gameResult = gameManager.calculateWinnings(spinResults);
             setSymbolImages(gameResult.getSymbols());
 
+            // Big Win Popup
             if (gameResult.getProfit() >= 100) {
-                openWinPopup(gameResult.getProfit());
+                try {
+                    openWinPopup(gameResult.getProfit());
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 profitLabel.setText("+" + gameResult.getProfit());
                 balanceLabel.setText(gameResult.getNewBalance() + "");
+            // Game Over Popup
             } else if (gameResult.getNewBalance() <= 0) {
-                openGameOverPopup();
+                try {
+                    openGameOverPopup();
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
                 balanceLabel.setText("0");
+            // Wenn kein Big Win oder Game Over
             } else {
+                // Wenn nichts gewonnen wurde
                 if (gameResult.getProfit() == 0) {
                     playSound("src/main/resources/sounds/Lost.mp3");
                     profitLabel.setText("-" + gameManager.getBet());
+                // Wenn weniger als Einsatz gewonnen wurde
                 } else if ((gameResult.getProfit() - gameManager.getBet()) < 0) {
                     profitLabel.setText("" + (gameResult.getProfit() - gameManager.getBet()));
+                // Wenn mehr als Einsatz gewonnen wurde
                 } else if ((gameResult.getProfit() - gameManager.getBet()) > 0) {
                     playSound("src/main/resources/sounds/Nice.mp3");
                     profitLabel.setText("+" + gameResult.getProfit());
                 }
                 balanceLabel.setText(gameResult.getNewBalance() + "");
             }
-
+            // Bet kann erst nach Spin Abfolge geändert werden
             decreaseBetBtn.setDisable(false);
             increaseBetBtn.setDisable(false);
             updateGlowEffect();
@@ -154,38 +170,43 @@ public class SlotMachineController {
         glow.setRadius(20);
         glow.setSpread(0.9);
 
+        // Animation für den Puls Effekt beim Hypothek Button
         Timeline pulsate = new Timeline(
                 new KeyFrame(Duration.ZERO, new KeyValue(glow.radiusProperty(), 10, Interpolator.EASE_OUT)),
-                new KeyFrame(Duration.seconds(0.5), new KeyValue(glow.radiusProperty(), 20, Interpolator.EASE_IN)),
-                new KeyFrame(Duration.seconds(1), new KeyValue(glow.radiusProperty(), 10, Interpolator.EASE_OUT))
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(glow.radiusProperty(), 20, Interpolator.EASE_IN))
         );
-        pulsate.setCycleCount(Timeline.INDEFINITE);
+        // Animation wird unendlich lange wiederholt
+        pulsate.setCycleCount(Animation.INDEFINITE);
         pulsate.setAutoReverse(true);
 
+        // Erst ab <100 Credits wird Effekt angezeigt
         if (gameCredit < 100) {
-            hypothekeSymbolImageView.setEffect(glow);
+            mortgageSymbolImageView.setEffect(glow);
             pulsate.play();
         } else {
-            hypothekeSymbolImageView.setEffect(null);
+            mortgageSymbolImageView.setEffect(null);
             pulsate.stop();
         }
     }
 
     private void handleSpinButtonCountdown() {
+        // IntelliJ hat AtomicInteger empfohlen wegen Lambda-Expression
+        // ein AtomicInteger ermöglicht thread-sichere Operationen auf einer Ganzzahl ohne Datenkonflikte
+        AtomicInteger remainingCooldown = new AtomicInteger();
         spinLabel.setText("3");
         spinBtn.setDisable(true);
         spinBtn.setStyle("-fx-background-color: #232b2d;");
 
         // in seconds
         int cooldownDuration = 3;
-        remainingCooldown = cooldownDuration;
+        remainingCooldown.set(cooldownDuration);
 
+        // Spin Button wird disabled und Text wird überschrieben, von 3 bis 0, Spieler Schutzmaßnahme
         cooldownTimeline = new Timeline(
                 new KeyFrame(Duration.seconds(1), event -> {
-                    remainingCooldown--;
+                    remainingCooldown.getAndDecrement();
                     spinLabel.setText("" + remainingCooldown);
-
-                    if (remainingCooldown == 0) {
+                    if (remainingCooldown.get() == 0) {
                         cooldownTimeline.stop();
                         spinBtn.setDisable(false);
                         spinLabel.setText("SPIN");
@@ -210,8 +231,9 @@ public class SlotMachineController {
         betLabel.setText(gameManager.decreaseBet() + "");
     }
 
+    // Öffnet Info Popup bei Info Button Click
     @FXML
-    private void onInfoButtonClick() {
+    private void onInfoButtonClick() throws IOException {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("info.fxml"));
             Stage stage = new Stage();
@@ -219,7 +241,7 @@ public class SlotMachineController {
             stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
             stage.show();
         } catch (IOException e) {
-            System.out.println("Failed to load Information panel.");
+            throw new IOException("Failed to load Information panel: " + e.getMessage());
         }
     }
 
@@ -274,35 +296,35 @@ public class SlotMachineController {
         iv.setY((iv.getFitHeight() - height) / 2);
     }
 
-    public void onSpinButtonPressed(MouseEvent mouseEvent) {
+    public void onSpinButtonPressed() {
         spinBtn.setOpacity(0.15);
     }
 
-    public void onSpinButtonReleased(MouseEvent mouseEvent) {
+    public void onSpinButtonReleased() {
         spinBtn.setOpacity(0.6);
     }
 
-    public void onIncreaseBetButtonPressed(MouseEvent mouseEvent) {
+    public void onIncreaseBetButtonPressed() {
         increaseBetBtn.setOpacity(0.3);
     }
 
-    public void onIncreaseBetButtonReleased(MouseEvent mouseEvent) {
+    public void onIncreaseBetButtonReleased() {
         increaseBetBtn.setOpacity(0.0);
     }
 
-    public void onDecreaseBetButtonPressed(MouseEvent mouseEvent) {
+    public void onDecreaseBetButtonPressed() {
         decreaseBetBtn.setOpacity(0.3);
     }
 
-    public void onDecreaseBetButtonReleased(MouseEvent mouseEvent) {
+    public void onDecreaseBetButtonReleased() {
         decreaseBetBtn.setOpacity(0.0);
     }
 
-    public void onInfoButtonPressed(MouseEvent mouseEvent) {
+    public void onInfoButtonPressed() {
         infoBtn.setOpacity(0.3);
     }
 
-    public void onInfoButtonReleased(MouseEvent mouseEvent) {
+    public void onInfoButtonReleased() {
         infoBtn.setOpacity(0.0);
     }
 
@@ -325,17 +347,14 @@ public class SlotMachineController {
     public void playBackground(String soundFilePath) {
         Media media = new Media(new File(soundFilePath).toURI().toString());
         backgroundMusic = new MediaPlayer(media);
-        backgroundMusic.setOnEndOfMedia(new Runnable() {
-            @Override
-            public void run() {
-                backgroundMusic.seek(Duration.ZERO);
-                backgroundMusic.play();
-            }
+        backgroundMusic.setOnEndOfMedia(() -> {
+            backgroundMusic.seek(Duration.ZERO);
+            backgroundMusic.play();
         });
         backgroundMusic.setAutoPlay(true);
     }
 
-    public void onSoundButtonClick(ActionEvent actionEvent) {
+    public void onSoundButtonClick() {
         soundEnabled = !soundEnabled; // Toggle sound on/off
         if (soundEnabled) {
             Image soundOnImage = new Image("image/Audio.png");
@@ -346,12 +365,13 @@ public class SlotMachineController {
         }
     }
 
-    public void openWinPopup(double amount) {
+    public void openWinPopup(double amount) throws IOException {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/win.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Congratulations!");
             stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
+            stage.setResizable(false);
             stage.show();
             spinBtn.setDisable(true);
             spinBtn.setOpacity(0.5);
@@ -366,46 +386,49 @@ public class SlotMachineController {
                 spinBtn.setStyle("-fx-background-color: transparent;");
             });
         } catch (IOException e) {
-            System.out.println("Failed to load Win-Popup.");
+            throw new IOException("Failed to load Win Popup panel: " + e.getMessage());
         }
     }
 
-    public void openGameOverPopup() {
+    public void openGameOverPopup() throws IOException {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/gameOver.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Game Over!");
             stage.setScene(new Scene(fxmlLoader.load(), 715, 512));
+            stage.setResizable(false);
             stage.show();
             spinBtn.setDisable(true);
             spinBtn.setOpacity(0.5);
             spinBtn.setStyle("-fx-background-color: #232b2d;");
 
-            stage.setOnCloseRequest(event -> {
-                Platform.exit();
-            });
+            stage.setOnCloseRequest(event -> Platform.exit());
         } catch (IOException e) {
-            System.out.println("Failed to load Win-Popup.");
+            throw new IOException("Failed to load Game Over Popup panel: " + e.getMessage());
         }
     }
 
-    public void onHypothekeButtonClick() {
+    public void onMortgageButtonClick() throws IOException, URISyntaxException {
         String url = "https://www.raiffeisen.at/de/privatkunden/kredit-leasing/wissenswertes-zum-thema-finanzieren/infos-zur-hypothek.html";
         try {
             Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
             // Handle exceptions, e.g., if the URL is invalid or if there is no default browser.
+        } catch (IOException e) {
+            throw new IOException("Failed to load URL: " + e.getMessage());
+        } catch (URISyntaxException u) {
+            throw new URISyntaxException("Malformed URL: ", u.getMessage());
         }
     }
 
-    public void onMisteryButtonClick() {
-        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+    public void onMisteryButtonClick() throws IOException, URISyntaxException {
+        String url = "https://www.yout-ube.com/watch?v=dQw4w9WgXcQ";
         try {
             Desktop.getDesktop().browse(new URI(url));
-        } catch (IOException | URISyntaxException e) {
-            e.printStackTrace();
             // Handle exceptions, e.g., if the URL is invalid or if there is no default browser.
+        } catch (IOException e) {
+            throw new IOException("Failed to load URL: " + e.getMessage());
+        } catch (URISyntaxException u) {
+            throw new URISyntaxException("Malformed URL: ", u.getMessage());
         }
     }
 
