@@ -4,31 +4,38 @@ import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
 import at.ac.fhcampuswien.slotmachine_syntax.SlotMachineApplication;
+import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
-import javafx.animation.RotateTransition;
+import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.transform.Rotate;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Collections;
 import java.util.List;
 
 public class SlotMachineController {
 
     public ImageView soundSymbolImageView;
+    public ImageView hypothekeSymbolImageView;
     @FXML
     private ImageView symbol1ImageView;
 
@@ -78,26 +85,66 @@ public class SlotMachineController {
 
     @FXML
     private void onSpinButtonClick() {
-        playSpinSound("src/main/resources/sounds/SpinSound.mp3");
+        playSound("src/main/resources/sounds/SpinSound.mp3");
         handleSpinButtonCountdown();
-
-        // Trigger spin animations
-        playSpinAnimation(symbol1ImageView, 2);
-        playSpinAnimation(symbol2ImageView, 2);
-        playSpinAnimation(symbol3ImageView, 2);
-        playSpinAnimation(symbol4ImageView, 2);
-        playSpinAnimation(symbol5ImageView, 2);
+        animateSymbolsBeforeRevealingResults();
     }
 
-    private void playSpinAnimation(ImageView imageView, int durationInSeconds) {
-        RotateTransition rotateTransition = new RotateTransition(Duration.seconds(durationInSeconds), imageView);
-        rotateTransition.setAxis(Rotate.Y_AXIS);
-        rotateTransition.setFromAngle(0);
-        rotateTransition.setToAngle(360);
-        rotateTransition.setCycleCount(2);
-        rotateTransition.setAutoReverse(false);
-        rotateTransition.play();
+    private void animateSymbolsBeforeRevealingResults() {
+
+        List<Symbol> spinResults = gameManager.createSpinResult();
+        GameResult gameResult = gameManager.calculateWinnings(spinResults);
+        Timeline animationTimeline = new Timeline(new KeyFrame(
+                Duration.millis(250),
+                event -> {
+                    symbol1ImageView.setImage(new Image(gameManager.pickRandomSymbol(Collections.emptyList()).getImagePath()));
+                    centerImage(symbol1ImageView);
+                    symbol2ImageView.setImage(new Image(gameManager.pickRandomSymbol(Collections.emptyList()).getImagePath()));
+                    centerImage(symbol2ImageView);
+                    symbol3ImageView.setImage(new Image(gameManager.pickRandomSymbol(Collections.emptyList()).getImagePath()));
+                    centerImage(symbol3ImageView);
+                    symbol4ImageView.setImage(new Image(gameManager.pickRandomSymbol(Collections.emptyList()).getImagePath()));
+                    centerImage(symbol4ImageView);
+                    symbol5ImageView.setImage(new Image(gameManager.pickRandomSymbol(Collections.emptyList()).getImagePath()));
+                    centerImage(symbol5ImageView);
+                }
+        ));
+
+        animationTimeline.setCycleCount(10);
+
+        animationTimeline.setOnFinished(e -> {
+            setSymbolImages(gameResult.getSymbols());
+            balanceLabel.setText(gameResult.getNewBalance() + "");
+            updateGlowEffect();
+        });
+
+        animationTimeline.play();
     }
+
+    public void updateGlowEffect() {
+        double gameCredit = gameManager.getBalance();
+        DropShadow glow = new DropShadow();
+        glow.setColor(Color.YELLOW);
+        glow.setRadius(20);
+        glow.setSpread(0.9);
+
+        Timeline pulsate = new Timeline(
+                new KeyFrame(Duration.ZERO, new KeyValue(glow.radiusProperty(), 10, Interpolator.EASE_OUT)),
+                new KeyFrame(Duration.seconds(0.5), new KeyValue(glow.radiusProperty(), 20, Interpolator.EASE_IN)),
+                new KeyFrame(Duration.seconds(1), new KeyValue(glow.radiusProperty(), 10, Interpolator.EASE_OUT))
+        );
+        pulsate.setCycleCount(Timeline.INDEFINITE);
+        pulsate.setAutoReverse(true);
+
+        if (gameCredit < 100) {
+            hypothekeSymbolImageView.setEffect(glow);
+            pulsate.play();
+        } else {
+            hypothekeSymbolImageView.setEffect(null);
+            pulsate.stop();
+        }
+    }
+
     private void handleSpinButtonCountdown() {
         spinLabel.setText("3");
         spinBtn.setDisable(true);
@@ -335,6 +382,28 @@ public class SlotMachineController {
             });
         } catch (IOException e) {
             System.out.println("Failed to load Win-Popup.");
+        }
+    }
+
+    public void onHypothekeButtonClick(ActionEvent actionEvent) {
+        String url = "https://www.raiffeisen.at/de/privatkunden/kredit-leasing/wissenswertes-zum-thema-finanzieren/infos-zur-hypothek.html"; // Replace with the URL you want to open
+
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            // Handle exceptions, e.g., if the URL is invalid or if there is no default browser.
+        }
+    }
+
+    public void onMisteryButtonClick(ActionEvent actionEvent) {
+        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Replace with the URL you want to open
+
+        try {
+            Desktop.getDesktop().browse(new URI(url));
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+            // Handle exceptions, e.g., if the URL is invalid or if there is no default browser.
         }
     }
 }

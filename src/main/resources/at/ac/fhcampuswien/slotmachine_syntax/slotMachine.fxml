@@ -54,6 +54,11 @@
             <Font name="Baskerville Bold" size="25.0" />
          </font>
       </Label>
+      <Label alignment="CENTER" layoutX="244.0" layoutY="363.0" opacity="0.9" prefHeight="31.0" prefWidth="30.0" text="?">
+         <font>
+            <Font name="Baskerville Bold" size="25.0" />
+         </font>
+      </Label>
       <ImageView fx:id="symbol1ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="306.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol2ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="439.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
       <ImageView fx:id="symbol3ImageView" fitHeight="200.0" fitWidth="95.0" layoutX="569.0" layoutY="226.0" pickOnBounds="true" preserveRatio="true" />
@@ -64,6 +69,10 @@
             <Image url="@../../../../image/Audio.png" />
          </image>
       </ImageView>
+      <ImageView fx:id="hypothekeSymbolImageView" fitHeight="21.0" fitWidth="26.0" layoutX="247.0" layoutY="410.0" opacity="0.7" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../image/Hypotheke.png" />
+         </image></ImageView>
       <Button fx:id="decreaseBetBtn" layoutX="850.0" layoutY="486.0" mnemonicParsing="false" onAction="#onDecreaseBetButtonClick" onMousePressed="#onDecreaseBetButtonPressed" onMouseReleased="#onDecreaseBetButtonReleased" opacity="0.0" prefHeight="50.0" prefWidth="89.0">
          <style>
             -fx-focus-color: transparent;
@@ -85,6 +94,8 @@
          </style>
       </Button>
       <Button fx:id="soundBtn" layoutX="242.0" layoutY="249.0" mnemonicParsing="false" onAction="#onSoundButtonClick" opacity="0.0" prefHeight="30.0" prefWidth="30.0" />
+      <Button fx:id="MisteryBtn" layoutX="242.0" layoutY="366.0" mnemonicParsing="false" onAction="#onMisteryButtonClick" opacity="0.0" prefHeight="30.0" prefWidth="30.0" text="Button" />
+      <Button fx:id="HypothekeBtn" layoutX="244.0" layoutY="403.0" mnemonicParsing="false" onAction="#onHypothekeButtonClick" opacity="0.0" prefHeight="36.0" prefWidth="30.0" text="Button" />
       <Label fx:id="profitLabel" alignment="CENTER" contentDisplay="CENTER" layoutX="586.0" layoutY="186.0" opacity="0.9" prefHeight="27.0" prefWidth="59.0">
          <font>
             <Font name="Baskerville Bold" size="14.0" />
