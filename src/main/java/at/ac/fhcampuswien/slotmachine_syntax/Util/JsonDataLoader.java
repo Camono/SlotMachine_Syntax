@@ -21,15 +21,15 @@ public class JsonDataLoader {
 
         JSONTokener tokenizer = new JSONTokener(is);
         JSONObject root = new JSONObject(tokenizer);
-        root.getJSONArray("symbols").forEach(symbol -> {
-            result.add(mapJSONtoSymbol((JSONObject) symbol));
-        });
+        root.getJSONArray("symbols").forEach(symbol ->
+            result.add(mapJSONtoSymbol((JSONObject) symbol))
+        );
 
         return result;
     }
 
     private static Symbol mapJSONtoSymbol(JSONObject jsonSymbol) {
-        Symbol result = new Symbol(jsonSymbol.getString("imagePath"),
+        return new Symbol(jsonSymbol.getString("imagePath"),
                 SymbolType.valueOf(jsonSymbol.getString("symbolType").toUpperCase()),
                 jsonSymbol.getDouble("appearFactor"),
                 jsonSymbol.getDouble("multiplierX3"),
@@ -37,7 +37,5 @@ public class JsonDataLoader {
                 jsonSymbol.getDouble("multiplierX5"),
                 jsonSymbol.getBoolean("isWild"),
                 jsonSymbol.getBoolean("isFreeSpin"));
-
-        return result;
     }
 }

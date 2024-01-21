@@ -15,9 +15,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class GameManagerTest {
 
+    private final Integer TEST_BET_AMOUNT = 1;
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
     private final Integer RANDOM_DISTRIBUTION_QUANTITY = 500000;
     private final Integer START_CREDITS = 1000;
+
 
     @Test
     public void testSingleSpin() {
@@ -34,46 +36,31 @@ public class GameManagerTest {
 
     @Test
     public void testMoneyReturn() {
-        //simulating 1000 x 10000 (with 1 unit bet amount) spins
-        List<GameResult> allGameResults = new ArrayList<>();
-        for (int i = 0; i < 1000; i++) {
-            GameManager manager = new GameManager(START_CREDITS);
+        GameManager manager = new GameManager(START_CREDITS);
+        double moneyFromWins = 0.0;
+        int winningSpins = 0;
 
-            GameResult lastGameResult = new GameResult(0.0, 0.0, null);
-            for (int j = 0; j < SIMULATE_SPINS_AMOUNT; j++) {
-                List<Symbol> spinResult = manager.createSpinResult();
+        GameResult lastGameResult = new GameResult(0.0, 0.0, null);
+        for (int i = 0; i < SIMULATE_SPINS_AMOUNT; i++) {
+            List<Symbol> spinResult = manager.createSpinResult();
+            GameResult gameResult = manager.calculateWinnings(spinResult);
+            moneyFromWins = moneyFromWins + gameResult.getProfit();
 
-                lastGameResult = manager.calculateWinnings(spinResult);
+            if (gameResult.getProfit() > 0.0) {
+                winningSpins++;
             }
-            //save latest game result as it contains the balance after 10000 games
-            allGameResults.add(lastGameResult);
+            lastGameResult = gameResult;
         }
 
-        List<Double> balances = allGameResults
-                .stream()
-                .map(GameResult::getNewBalance)
-                .sorted()
-                .toList();
+        int totalBetSum = TEST_BET_AMOUNT * SIMULATE_SPINS_AMOUNT;
+        System.out.println("Runden gespielt: " + SIMULATE_SPINS_AMOUNT);
+        System.out.println("Runden gewonnen: " + winningSpins);
+        System.out.println("Gesamter Einsatz: " + totalBetSum);
+        System.out.println("Kontostand: " + lastGameResult.getNewBalance());
 
-        double sumOfBalances = 0.0;
-        int winners = 0;
-
-        for (double value : balances) {
-            //start credits relevant to determine winner
-            if (value > 1000) {
-                winners++;
-            }
-            sumOfBalances += value;
-        }
-
-
-        System.out.println("Gesamt Balance: " + sumOfBalances + "  |   Abzüglich Einsatz: " + (sumOfBalances-1000*START_CREDITS));
-        System.out.println("Winner count: " + winners);
-        System.out.println("Average balance after 10000 games starting with 1000 credits: " + sumOfBalances/1000);
-        System.out.println("Min balance after 10000 games starting with 1000 credits:" + balances.get(0));
-        System.out.println("Max balance after 10000 games starting with 1000 credits: " + balances.get(999));
-        System.out.println("Median balance after 10000 games starting with 1000 credits: " + balances.get(500));
-
+        //der Kontostand nach 10000 (bzw SIMULATE_SPINS_AMOUNT) Spielen darf nie höher sein als davor -> House Edge
+        boolean loser = lastGameResult.getNewBalance() < totalBetSum;
+        assertTrue(loser);
     }
 
     @Test
