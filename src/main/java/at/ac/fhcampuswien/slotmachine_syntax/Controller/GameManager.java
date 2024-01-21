@@ -141,7 +141,7 @@ public class GameManager {
         //wenn der counter 2 oder größer ist, gibt es mindestens 3 gleiche symbole von links nach rechts
         if (counter > 1) {
             double winSum = getWinSum(counter, firstSymbol);
-            balance = balance + winSum;
+            balance = balance - betRange.get(currentBetIndex) + winSum;
             return new GameResult(winSum, balance, spinResult);
         } else {
             // wenn der counter 1 oder niedriger ist, ist das Symbol maximal 2 mal erschienen von Links nach rechts

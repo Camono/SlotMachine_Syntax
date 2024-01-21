@@ -37,6 +37,8 @@ public class SlotMachineController {
     public ImageView soundSymbolImageView;
     public ImageView hypothekeSymbolImageView;
     @FXML
+    private ImageView musicSymbolImageView;
+    @FXML
     private ImageView symbol1ImageView;
 
     @FXML
@@ -85,15 +87,15 @@ public class SlotMachineController {
 
     @FXML
     private void onSpinButtonClick() {
-        playSound("src/main/resources/sounds/SpinSound.mp3");
+        playSpinSound("src/main/resources/sounds/SpinSound.mp3");
+        balanceLabel.setText(gameManager.getBalance()-gameManager.getBet() + "");
+        decreaseBetBtn.setDisable(true);
+        increaseBetBtn.setDisable(true);
         handleSpinButtonCountdown();
         animateSymbolsBeforeRevealingResults();
     }
 
     private void animateSymbolsBeforeRevealingResults() {
-
-        List<Symbol> spinResults = gameManager.createSpinResult();
-        GameResult gameResult = gameManager.calculateWinnings(spinResults);
         Timeline animationTimeline = new Timeline(new KeyFrame(
                 Duration.millis(250),
                 event -> {
@@ -113,15 +115,39 @@ public class SlotMachineController {
         animationTimeline.setCycleCount(10);
 
         animationTimeline.setOnFinished(e -> {
+            List<Symbol> spinResults = gameManager.createSpinResult();
+            GameResult gameResult = gameManager.calculateWinnings(spinResults);
             setSymbolImages(gameResult.getSymbols());
-            balanceLabel.setText(gameResult.getNewBalance() + "");
+
+            if (gameResult.getProfit() >= 100) {
+                openWinPopup(gameResult.getProfit());
+                profitLabel.setText("+" + gameResult.getProfit());
+                balanceLabel.setText(gameResult.getNewBalance() + "");
+            } else if (gameResult.getNewBalance() <= 0) {
+                openGameOverPopup();
+                balanceLabel.setText("0");
+            } else {
+                if (gameResult.getProfit() == 0) {
+                    playSound("src/main/resources/sounds/Lost.mp3");
+                    profitLabel.setText("-" + gameManager.getBet());
+                } else if ((gameResult.getProfit() - gameManager.getBet()) < 0) {
+                    profitLabel.setText("" + (gameResult.getProfit() - gameManager.getBet()));
+                } else if ((gameResult.getProfit() - gameManager.getBet()) > 0) {
+                    playSound("src/main/resources/sounds/Nice.mp3");
+                    profitLabel.setText("+" + gameResult.getProfit());
+                }
+                balanceLabel.setText(gameResult.getNewBalance() + "");
+            }
+
+            decreaseBetBtn.setDisable(false);
+            increaseBetBtn.setDisable(false);
             updateGlowEffect();
         });
 
         animationTimeline.play();
     }
 
-    public void updateGlowEffect() {
+    private void updateGlowEffect() {
         double gameCredit = gameManager.getBalance();
         DropShadow glow = new DropShadow();
         glow.setColor(Color.YELLOW);
@@ -165,28 +191,6 @@ public class SlotMachineController {
                         spinLabel.setText("SPIN");
                         spinBtn.setOpacity(0.0);
                         spinBtn.setStyle("-fx-background-color: transparent;");
-
-                        List<Symbol> spinResults = gameManager.createSpinResult();
-                        GameResult gameResult = gameManager.calculateWinnings(spinResults);
-                        setSymbolImages(gameResult.getSymbols());
-                        if (gameResult.getProfit() >= 100) {
-                            openWinPopup(gameResult.getProfit());
-                            balanceLabel.setText(gameResult.getNewBalance() + "");
-                        } else if (gameResult.getNewBalance() <= 0) {
-                            openGameOverPopup();
-                            balanceLabel.setText("0");
-                        } else {
-                            if (gameResult.getProfit() >= 15) {
-                                playSound("src/main/resources/sounds/Nice.mp3");
-                            } else if (gameResult.getProfit() == 0){
-                                playSound("src/main/resources/sounds/Lost.mp3");
-                            }
-                            balanceLabel.setText(gameResult.getNewBalance() + "");
-                        } if (gameResult.getProfit() > 0) {
-                            profitLabel.setText("+" + gameResult.getProfit());
-                        } else {
-                            profitLabel.setText("+0");
-                        }
                     }
                 })
         );
@@ -385,9 +389,8 @@ public class SlotMachineController {
         }
     }
 
-    public void onHypothekeButtonClick(ActionEvent actionEvent) {
-        String url = "https://www.raiffeisen.at/de/privatkunden/kredit-leasing/wissenswertes-zum-thema-finanzieren/infos-zur-hypothek.html"; // Replace with the URL you want to open
-
+    public void onHypothekeButtonClick() {
+        String url = "https://www.raiffeisen.at/de/privatkunden/kredit-leasing/wissenswertes-zum-thema-finanzieren/infos-zur-hypothek.html";
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException e) {
@@ -396,14 +399,25 @@ public class SlotMachineController {
         }
     }
 
-    public void onMisteryButtonClick(ActionEvent actionEvent) {
-        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ"; // Replace with the URL you want to open
-
+    public void onMisteryButtonClick() {
+        String url = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
         try {
             Desktop.getDesktop().browse(new URI(url));
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
             // Handle exceptions, e.g., if the URL is invalid or if there is no default browser.
+        }
+    }
+
+    public void onMusicButtonClick() {
+        if (backgroundMusic.getVolume() != 0) {
+            backgroundMusic.setVolume(0);
+            Image musicOff = new Image("image/MusicMute.png");
+            musicSymbolImageView.setImage(musicOff);
+        } else {
+            backgroundMusic.setVolume(1);
+            Image musicOn = new Image("image/Music.png");
+            musicSymbolImageView.setImage(musicOn);
         }
     }
 }
