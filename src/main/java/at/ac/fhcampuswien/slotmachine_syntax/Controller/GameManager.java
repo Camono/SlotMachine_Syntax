@@ -15,14 +15,11 @@ public class GameManager {
     private final List<Integer> betRange;
     private final List<Symbol> allSymbols;
 
-
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
-    private static final double DEFAULT_CHANCE_OF_X3 = 0.33;
+    private final double DEFAULT_CHANCE_OF_X3 = 0.32;
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
-    private static final double DEFAULT_CHANCE_OF_X4 = 0.17;
+    private final double DEFAULT_CHANCE_OF_X4 = 0.1485;
 
-
-    //constructors
     public GameManager(double balance) {
         this.balance = balance;
         //betting possibilities are predefined
@@ -41,7 +38,7 @@ public class GameManager {
     }
 
     public int increaseBet() {
-        if (currentBetIndex < betRange.size() -1) {
+        if (currentBetIndex < betRange.size() - 1) {
             currentBetIndex++;
         }
 
@@ -59,7 +56,8 @@ public class GameManager {
         //zB wenn eine Kombination einen Auszahlungsfaktor von x100 hat, darf die Chance, dass diese Kombination eintritt nicht 1/100 = 1% sein, sondern muss geringer sein -> house edge
         double chanceOfX5 = getChanceOfX5(firstSymbol);
 
-        double randomValue = getRandomValue();
+        Random random = new Random();
+        double randomValue = random.nextDouble();
 
         if (chanceOfX5 > randomValue) {
             //add 4 more same symbols to the spin result
@@ -92,17 +90,22 @@ public class GameManager {
 
 
     public Symbol pickRandomSymbol(List<Symbol> symbolsToExclude) {
+        //zufälliger wert von 0.0 bis 1.0 wird generiert
+        Random random = new Random();
+        double randomValue = random.nextDouble();
+
         List<Symbol> elements = new ArrayList<>(allSymbols);
         //Wenn wir ein oder mehr Symbol ausschließen wollen aus der Zufallswahl
         if (!symbolsToExclude.isEmpty()) {
+            for (Symbol symbolToExclude : symbolsToExclude) {
+                //randomValue muss reduziert werden um den appearFactor der ausgeschlossenen Symbole
+                randomValue = randomValue - symbolToExclude.getAppearFactor();
+            }
             elements.removeAll(symbolsToExclude);
         }
 
         //Liste muss zufällig angeordnet werden
         Collections.shuffle(elements);
-
-        //zufälliger wert von 0.0 bis 1.0 wird generiert
-        double randomValue = getRandomValue();
 
         //die kumulative Wahrscheinlichkeit sorgt dafür das die appearChance von allen Symbolen berücksichtigt wird
         double cumulativeProbability = 0.0;
@@ -117,11 +120,6 @@ public class GameManager {
 
         // Shouldn't reach here, but return the last element just in case
         return elements.get(elements.size() - 1);
-    }
-
-    private double getRandomValue() {
-        Random random = new Random();
-        return random.nextDouble();
     }
 
     public GameResult calculateWinnings(List<Symbol> spinResult) {

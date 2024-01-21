@@ -4,8 +4,8 @@
       "symbolType": "U1",
       "imagePath": "/symbols/U1.png",
       "appearFactor": 0.25,
-      "multiplierX3": 0.15,
-      "multiplierX4": 0.5,
+      "multiplierX3": 0.3,
+      "multiplierX4": 1.0,
       "multiplierX5": 2.5,
       "isWild": false,
       "isFreeSpin": false
@@ -14,8 +14,8 @@
       "symbolType": "U6",
       "imagePath": "/symbols/U6.png",
       "appearFactor": 0.24,
-      "multiplierX3": 0.15,
-      "multiplierX4": 0.5,
+      "multiplierX3": 0.3,
+      "multiplierX4": 1.0,
       "multiplierX5": 2.5,
       "isWild": false,
       "isFreeSpin": false
@@ -55,8 +55,8 @@
       "imagePath": "/symbols/Lugner.png",
       "appearFactor": 0.03,
       "multiplierX3": 5.0,
-      "multiplierX4": 20.0,
-      "multiplierX5": 50.0,
+      "multiplierX4": 50.0,
+      "multiplierX5": 100.0,
       "isWild": false,
       "isFreeSpin": false
     },

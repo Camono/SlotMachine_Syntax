@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="512.0" prefWidth="896.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView fitHeight="512.0" fitWidth="896.0" pickOnBounds="true" preserveRatio="true">
          <image>
@@ -53,12 +52,12 @@
             <Image url="@../../../../symbols/GIS.png" />
          </image>
       </ImageView>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="110.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: 0.15" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="110.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: 0.3" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="135.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="4x: 0.5" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="135.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="4x: 1.0" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
@@ -83,7 +82,7 @@
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="250.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: 0.15" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="250.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: 0.3" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
@@ -133,32 +132,22 @@
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="275.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="4x: 20.0" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="275.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="4x: 50.0" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="300.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="5x: 50.0" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="300.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="5x: 100.0" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="391.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: WILD" textAlignment="CENTER">
+      <Label contentDisplay="RIGHT" layoutX="378.0" layoutY="385.0" prefHeight="80.0" prefWidth="460.0" text="Symbole in der jeweiligen Anzahl von links nach rechts werden für die Gewinnberechnung verwendet. Viel Glück!" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="416.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="4x: WILD" textAlignment="CENTER">
-         <font>
-            <Font name="Baskerville Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="155.0" layoutY="441.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="5x: WILD" textAlignment="CENTER">
-         <font>
-            <Font name="Baskerville Bold" size="18.0" />
-         </font>
-      </Label>
-      <Label contentDisplay="RIGHT" layoutX="360.0" layoutY="385.0" prefHeight="80.0" prefWidth="477.0" text="Bei gleichen Symbolen wird, je nach Anzahl, Ihr Einsatz um den jeweiligen Faktor multipliziert. Good luck!" textOverrun="CLIP" wrapText="true">
+      <Label contentDisplay="RIGHT" layoutX="122.0" layoutY="385.0" prefHeight="80.0" prefWidth="65.0" text="Joker Symbol" textOverrun="CLIP" wrapText="true">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>
