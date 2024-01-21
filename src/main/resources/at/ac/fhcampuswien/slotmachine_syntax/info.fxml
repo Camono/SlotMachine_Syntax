@@ -138,7 +138,7 @@
             <Font name="Baskerville Bold" size="18.0" />
          </font>
       </Label>
-      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="300.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="3x: 50.0" textAlignment="CENTER">
+      <Label alignment="BOTTOM_LEFT" contentDisplay="RIGHT" layoutX="756.0" layoutY="300.0" opacity="0.9" prefHeight="17.0" prefWidth="90.0" text="5x: 50.0" textAlignment="CENTER">
          <font>
             <Font name="Baskerville Bold" size="18.0" />
          </font>

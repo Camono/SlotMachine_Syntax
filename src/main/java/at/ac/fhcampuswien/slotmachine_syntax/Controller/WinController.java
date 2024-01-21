@@ -12,12 +12,6 @@ public class WinController {
     @FXML
     private Label amountWonLabel;
 
-    @FXML
-    private Label youWonLabel;
-
-    @FXML
-    private Label creditsLabel;
-
     private Timeline animationTimeline;
     private Timeline blinkingTimeline;
 
@@ -34,9 +28,7 @@ public class WinController {
                     if (start.get() >= amount) {
                         animationTimeline.stop();
                         blinkingTimeline.play();
-                        youWonLabel.setVisible(true);
-                        creditsLabel.setVisible(true);
-                        amountWonLabel.setText(amount + "");
+                        amountWonLabel.setText(amount + " WON!");
                     }
                 })
         );

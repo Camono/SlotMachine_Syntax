@@ -19,7 +19,6 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -89,7 +88,11 @@ public class SlotMachineController {
     @FXML
     private void onSpinButtonClick() {
         playSpinSound("src/main/resources/sounds/SpinSound.mp3");
-        balanceLabel.setText(gameManager.getBalance()-gameManager.getBet() + "");
+        double newBalance = gameManager.getBalance()-gameManager.getBet();
+        if (newBalance < 0) {
+            newBalance = 0;
+        }
+        balanceLabel.setText(newBalance + "");
         decreaseBetBtn.setDisable(true);
         increaseBetBtn.setDisable(true);
 
@@ -122,7 +125,7 @@ public class SlotMachineController {
             setSymbolImages(gameResult.getSymbols());
 
             // Big Win Popup
-            if (gameResult.getProfit() >= 100) {
+            if ((gameResult.getProfit()/gameManager.getBet()) >= 2.5) {
                 try {
                     openWinPopup(gameResult.getProfit());
                 } catch (IOException ex) {
@@ -370,21 +373,12 @@ public class SlotMachineController {
             FXMLLoader fxmlLoader = new FXMLLoader(SlotMachineApplication.class.getResource("popup/win.fxml"));
             Stage stage = new Stage();
             stage.setTitle("Congratulations!");
-            stage.setScene(new Scene(fxmlLoader.load(), 896, 512));
+            stage.setScene(new Scene(fxmlLoader.load(), 610, 512));
             stage.setResizable(false);
             stage.show();
-            spinBtn.setDisable(true);
-            spinBtn.setOpacity(0.5);
-            spinBtn.setStyle("-fx-background-color: #232b2d;");
 
             WinController winCon = fxmlLoader.getController();
             winCon.printAmount(amount);
-
-            stage.setOnCloseRequest(event -> {
-                spinBtn.setDisable(false);
-                spinBtn.setOpacity(0.0);
-                spinBtn.setStyle("-fx-background-color: transparent;");
-            });
         } catch (IOException e) {
             throw new IOException("Failed to load Win Popup panel: " + e.getMessage());
         }
@@ -398,9 +392,6 @@ public class SlotMachineController {
             stage.setScene(new Scene(fxmlLoader.load(), 715, 512));
             stage.setResizable(false);
             stage.show();
-            spinBtn.setDisable(true);
-            spinBtn.setOpacity(0.5);
-            spinBtn.setStyle("-fx-background-color: #232b2d;");
 
             stage.setOnCloseRequest(event -> Platform.exit());
         } catch (IOException e) {
