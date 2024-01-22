@@ -46,12 +46,13 @@ class GameManagerTest {
         //simulating 1000 x 10000 (with 1 unit bet amount) spins
         List<GameResult> allGameResults = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
+            GameManager gameManager = new GameManager(START_CREDITS);
 
             GameResult lastGameResult = new GameResult(0.0, 0.0, null);
             for (int j = 0; j < SIMULATE_SPINS_AMOUNT; j++) {
-                List<Symbol> spinResult = manager.createSpinResult();
+                List<Symbol> spinResult = gameManager.createSpinResult();
 
-                lastGameResult = manager.calculateWinnings(spinResult);
+                lastGameResult = gameManager.calculateWinnings(spinResult);
             }
             //save latest game result as it contains the balance after 10000 games
             allGameResults.add(lastGameResult);
@@ -195,4 +196,46 @@ class GameManagerTest {
         //assert
         assertEquals(gameResult.getNewBalance() - oldBalance + manager.getBet(), gameResult.getProfit());
     }
+
+    @Test
+    void testIncreaseBet() {
+        // Setzt den Index auf den niedrigsten Wert für den Test
+        while (manager.getBet() > manager.getBetRange().get(0)) {
+            manager.decreaseBet();
+        }
+
+        int initialBet = manager.getBet();
+        manager.increaseBet();
+        assertTrue(manager.getBet() > initialBet);
+
+        // Setzt den Index auf den höchsten Wert und testet die Grenze
+        while (manager.getBet() < manager.getBetRange().get(manager.getBetRange().size() - 1)) {
+            manager.increaseBet();
+        }
+        int maxBet = manager.getBet();
+        manager.increaseBet();
+        assertEquals(maxBet, manager.getBet());
+    }
+
+    @Test
+    void testDecreaseBet() {
+        // Setzt den Index auf den höchsten Wert für den Test
+
+        while (manager.getBet() < manager.getBetRange().get(manager.getBetRange().size() - 1)) {
+            manager.increaseBet();
+        }
+
+        int initialBet = manager.getBet();
+        manager.decreaseBet();
+        assertTrue(manager.getBet() < initialBet);
+
+        // Setzt den Index auf den niedrigsten Wert und testet die Grenze
+        while (manager.getBet() > manager.getBetRange().get(0)) {
+            manager.decreaseBet();
+        }
+        int minBet = manager.getBet();
+        manager.decreaseBet();
+        assertEquals(minBet, manager.getBet());
+    }
+
 }

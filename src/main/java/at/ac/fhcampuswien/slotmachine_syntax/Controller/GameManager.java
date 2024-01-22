@@ -192,4 +192,8 @@ public class GameManager {
     public double getBalance() {
         return balance;
     }
+
+    public List<Integer> getBetRange() {
+        return this.betRange;
+    }
 }
