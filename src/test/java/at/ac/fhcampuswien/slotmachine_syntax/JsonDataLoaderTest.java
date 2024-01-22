@@ -23,6 +23,13 @@ public class JsonDataLoaderTest {
     }
 
     @Test
+    void testListIsEmpty() {
+        symbols.clear();
+        symbols = JsonDataLoader.getAllSymbolsFromJSON(null);
+        assertTrue(symbols.isEmpty(), "List should not be empty");
+    }
+
+    @Test
     void testListNotNullOrEmpty() {
         assertNotNull(symbols, "List should not be null");
         assertFalse(symbols.isEmpty(), "List should not be empty");
