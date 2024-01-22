@@ -15,15 +15,15 @@ public class JsonDataLoader {
         if (is == null) {
             return Collections.emptyList();
         }
-
         List<Symbol> result = new ArrayList<>();
-
+        // Erstellt einen JSONTokener mit dem InputStream, um JSON-Objekte zu parsen.
         JSONTokener tokenizer = new JSONTokener(is);
+        // Erstellt ein JSONObject aus dem tokenizer, das als Wurzel des JSON-Dokuments dient.
         JSONObject root = new JSONObject(tokenizer);
+        // Holt das JSON-Array namens "symbols" aus dem root-JSONObject.
         root.getJSONArray("symbols").forEach(symbol ->
-            result.add(mapJSONtoSymbol((JSONObject) symbol))
+                result.add(mapJSONtoSymbol((JSONObject) symbol))
         );
-
         return result;
     }
 
