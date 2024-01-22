@@ -42,7 +42,7 @@ class GameManagerTest {
     }
 
     @Test
-    void testMoneyReturn() {
+    void testHouseEdge() {
         //simulating 1000 x 10000 (with 1 unit bet amount) spins
         List<GameResult> allGameResults = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
@@ -81,6 +81,10 @@ class GameManagerTest {
         System.out.println("Min balance after 10000 games starting with 1000 credits:" + balances.get(0));
         System.out.println("Max balance after 10000 games starting with 1000 credits: " + balances.get(999));
         System.out.println("Median balance after 10000 games starting with 1000 credits: " + balances.get(500));
+
+        //haus vorteil ist gegeben wenn der durchschnittliche Kontostand aller Sitzungen geringer als das Startguthaben ist
+        boolean houseEdge = START_CREDITS > sumOfBalances/1000;
+        assertTrue(houseEdge);
     }
 
     @Test

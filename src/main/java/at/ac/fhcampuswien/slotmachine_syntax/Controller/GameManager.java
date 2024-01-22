@@ -16,9 +16,9 @@ public class GameManager {
     private final List<Symbol> allSymbols;
 
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 2x erscheint
-    private final double DEFAULT_CHANCE_OF_X3 = 0.32;
+    private final double DEFAULT_CHANCE_OF_X3 = 0.294;
     //Wahrscheinlichkeit, dass das zuerst gewählte Symbol noch 3x erscheint
-    private final double DEFAULT_CHANCE_OF_X4 = 0.1485;
+    private final double DEFAULT_CHANCE_OF_X4 = 0.145;
 
     public GameManager(double balance) {
         this.balance = balance;
