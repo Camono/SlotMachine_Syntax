@@ -160,6 +160,18 @@ class GameManagerTest {
     }
 
     @Test
+    void testCreateWinningsAfterNormalLose() {
+        //arrange
+        List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_normal_lose_symbols.json"));
+
+        //act
+        GameResult gameResult = manager.calculateWinnings(spinResult);
+
+        //assert
+        assertNotSame(manager.getBalance(), gameResult.getNewBalance());
+    }
+
+    @Test
     void testCreateWinningsAfterLose() {
         //arrange
         List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_lose_symbols.json"));

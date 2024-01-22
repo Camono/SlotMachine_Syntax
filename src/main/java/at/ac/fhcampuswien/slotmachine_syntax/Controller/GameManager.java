@@ -138,6 +138,8 @@ public class GameManager {
         for (int i = 1; i < spinResult.size(); i++) {
             if (spinResult.get(i).equals(firstSymbol) || spinResult.get(i).isWild()) {
                 counter++;
+            } else {
+                break;
             }
         }
 

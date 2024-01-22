@@ -10,21 +10,21 @@
       "isWild": false
     },
     {
-      "symbolType": "LUGNER",
-      "imagePath": "/symbols/Lugner.png",
-      "appearFactor": 0.03,
-      "multiplierX3": 5.0,
-      "multiplierX4": 50.0,
-      "multiplierX5": 100.0,
-      "isWild": false
-    },
-    {
       "symbolType": "GIS",
       "imagePath": "/symbols/GIS.png",
       "appearFactor": 0.07,
       "multiplierX3": 1.5,
       "multiplierX4": 6.0,
       "multiplierX5": 15.3,
+      "isWild": false
+    },
+    {
+      "symbolType": "LUGNER",
+      "imagePath": "/symbols/Lugner.png",
+      "appearFactor": 0.03,
+      "multiplierX3": 5.0,
+      "multiplierX4": 50.0,
+      "multiplierX5": 100.0,
       "isWild": false
     },
     {
