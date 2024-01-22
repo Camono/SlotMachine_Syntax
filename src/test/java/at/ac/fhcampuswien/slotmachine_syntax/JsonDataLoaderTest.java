@@ -17,7 +17,7 @@ public class JsonDataLoaderTest {
 
     @BeforeAll
     public static void setUp() {
-        InputStream testInputStream = JsonDataLoaderTest.class.getResourceAsStream("/symbols.json");
+        InputStream testInputStream = JsonDataLoaderTest.class.getResourceAsStream("/test_win_symbols.json");
         assertNotNull(testInputStream);
         symbols = JsonDataLoader.getAllSymbolsFromJSON(testInputStream);
     }
@@ -26,14 +26,14 @@ public class JsonDataLoaderTest {
     void testListNotNullOrEmpty() {
         assertNotNull(symbols, "List should not be null");
         assertFalse(symbols.isEmpty(), "List should not be empty");
-        assertEquals(7, symbols.size(), "There should be 8 symbols");
+        assertEquals(5, symbols.size(), "There should be 8 symbols");
     }
 
     @Test
     void testFirstSymbolProperties() {
-        assertEquals(SymbolType.U1, symbols.get(0).getSymbolType());
-        assertEquals("/symbols/U1.png", symbols.get(0).getImagePath());
-        assertEquals(0.25, symbols.get(0).getAppearFactor());
+        assertEquals(SymbolType.LUGNER, symbols.get(0).getSymbolType());
+        assertEquals("/symbols/Lugner.png", symbols.get(0).getImagePath());
+        assertEquals(0.03, symbols.get(0).getAppearFactor());
     }
 
 }

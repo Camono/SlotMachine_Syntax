@@ -4,24 +4,32 @@ import at.ac.fhcampuswien.slotmachine_syntax.Controller.GameManager;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.GameResult;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.Symbol;
 import at.ac.fhcampuswien.slotmachine_syntax.Model.SymbolType;
+import at.ac.fhcampuswien.slotmachine_syntax.Util.JsonDataLoader;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertAll;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
+import static org.junit.jupiter.api.Assertions.*;
 class GameManagerTest {
 
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
     private final Integer RANDOM_DISTRIBUTION_QUANTITY = 500000;
-    private final Integer START_CREDITS = 1000;
+    private static final Integer START_CREDITS = 1000;
+
+    private static GameManager manager;
+
+
+    @BeforeAll
+    public static void setUp() {
+        manager = new GameManager(START_CREDITS);
+    }
+
 
     @Test
     void testSingleSpin() {
-        GameManager manager = new GameManager(START_CREDITS);
         GameResult gameResult = manager.calculateWinnings(manager.createSpinResult());
         Symbol symbol1 = gameResult.getSymbols().get(0);
         Symbol symbol2 = gameResult.getSymbols().get(1);
@@ -37,7 +45,6 @@ class GameManagerTest {
         //simulating 1000 x 10000 (with 1 unit bet amount) spins
         List<GameResult> allGameResults = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
-            GameManager manager = new GameManager(START_CREDITS);
 
             GameResult lastGameResult = new GameResult(0.0, 0.0, null);
             for (int j = 0; j < SIMULATE_SPINS_AMOUNT; j++) {
@@ -77,7 +84,7 @@ class GameManagerTest {
     @Test
     void testRandomDistribution() {
         List<Symbol> symbols = new ArrayList<>();
-        GameManager manager = new GameManager(500);
+        manager = new GameManager(500);
 
         //randomly pick symbols up to RANDOM_DISTRIBUTION_QUANTITY
         for (int i = 0; i < RANDOM_DISTRIBUTION_QUANTITY; i++) {
@@ -149,5 +156,30 @@ class GameManagerTest {
         System.out.println("LUGNER: " + (double) countLUGNER / factor * 100 + "%");
         System.out.println("WILD: " + (double) countWILD / factor * 100 + "%");
 
+    }
+
+    @Test
+    void testCreateWinningsAfterLose(){
+        //arrange
+        List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_lose_symbols.json"));
+
+        //act
+        GameResult gameResult = manager.calculateWinnings(spinResult);
+
+        //assert
+        assertNotSame(manager.getBalance(),gameResult.getNewBalance());
+    }
+
+    @Test
+    void testCreateWinningsNotWild(){
+        //arrange
+        List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_win_symbols.json"));
+        double oldBalance = manager.getBalance();
+
+        //act
+        GameResult gameResult = manager.calculateWinnings(spinResult);
+
+        //assert
+        assertEquals(gameResult.getNewBalance() - oldBalance + manager.getBet() ,gameResult.getProfit());
     }
 }
