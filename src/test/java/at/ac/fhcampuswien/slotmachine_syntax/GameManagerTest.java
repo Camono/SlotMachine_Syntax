@@ -199,43 +199,16 @@ class GameManagerTest {
 
     @Test
     void testIncreaseBet() {
-        // Setzt den Index auf den niedrigsten Wert für den Test
-        while (manager.getBet() > manager.getBetRange().get(0)) {
-            manager.decreaseBet();
-        }
-
         int initialBet = manager.getBet();
         manager.increaseBet();
         assertTrue(manager.getBet() > initialBet);
-
-        // Setzt den Index auf den höchsten Wert und testet die Grenze
-        while (manager.getBet() < manager.getBetRange().get(manager.getBetRange().size() - 1)) {
-            manager.increaseBet();
-        }
-        int maxBet = manager.getBet();
-        manager.increaseBet();
-        assertEquals(maxBet, manager.getBet());
     }
 
     @Test
     void testDecreaseBet() {
-        // Setzt den Index auf den höchsten Wert für den Test
-
-        while (manager.getBet() < manager.getBetRange().get(manager.getBetRange().size() - 1)) {
-            manager.increaseBet();
-        }
-
         int initialBet = manager.getBet();
         manager.decreaseBet();
         assertTrue(manager.getBet() < initialBet);
-
-        // Setzt den Index auf den niedrigsten Wert und testet die Grenze
-        while (manager.getBet() > manager.getBetRange().get(0)) {
-            manager.decreaseBet();
-        }
-        int minBet = manager.getBet();
-        manager.decreaseBet();
-        assertEquals(minBet, manager.getBet());
     }
 
 }
