@@ -18,8 +18,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.util.Duration;
+
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
@@ -89,7 +89,7 @@ public class SlotMachineController {
     @FXML
     private void onSpinButtonClick() {
         playSpinSound("src/main/resources/sounds/SpinSound.mp3");
-        double newBalance = gameManager.getBalance()-gameManager.getBet();
+        double newBalance = gameManager.getBalance() - gameManager.getBet();
         if (newBalance < 0) {
             newBalance = 0;
         }
@@ -126,7 +126,7 @@ public class SlotMachineController {
             setSymbolImages(gameResult.getSymbols());
 
             // Big Win Popup
-            if ((gameResult.getProfit()/gameManager.getBet()) >= 2.5) {
+            if ((gameResult.getProfit() / gameManager.getBet()) >= 2.5) {
                 try {
                     openWinPopup(gameResult.getProfit());
                 } catch (IOException ex) {
@@ -134,30 +134,32 @@ public class SlotMachineController {
                 }
                 profitLabel.setText("+" + gameResult.getProfit());
                 balanceLabel.setText(gameResult.getNewBalance() + "");
-            // Game Over Popup
-            } else if (gameResult.getNewBalance() < 1) {
+                // Game Over Popup
+            }
+
+            if (gameResult.getNewBalance() < 1) {
                 try {
                     openGameOverPopup();
                 } catch (IOException ex) {
                     throw new RuntimeException(ex);
                 }
                 balanceLabel.setText("0");
-            // Wenn kein Big Win oder Game Over
-            } else {
-                // Wenn nichts gewonnen wurde
-                if (gameResult.getProfit() == 0) {
-                    playSound("src/main/resources/sounds/Lost.mp3");
-                    profitLabel.setText("-" + gameManager.getBet());
-                // Wenn weniger als Einsatz gewonnen wurde
-                } else if ((gameResult.getProfit() - gameManager.getBet()) < 0) {
-                    profitLabel.setText("" + (gameResult.getProfit() - gameManager.getBet()));
-                // Wenn mehr als Einsatz gewonnen wurde
-                } else if ((gameResult.getProfit() - gameManager.getBet()) > 0) {
-                    playSound("src/main/resources/sounds/Nice.mp3");
-                    profitLabel.setText("+" + gameResult.getProfit());
-                }
-                balanceLabel.setText(gameResult.getNewBalance() + "");
+                // Wenn kein Big Win oder Game Over
             }
+
+            // Wenn nichts gewonnen wurde
+            if (gameResult.getProfit() == 0) {
+                playSound("src/main/resources/sounds/Lost.mp3");
+                profitLabel.setText("-" + gameManager.getBet());
+                // Wenn weniger als Einsatz gewonnen wurde
+            } else if ((gameResult.getProfit() - gameManager.getBet()) < 0) {
+                profitLabel.setText("" + (gameResult.getProfit() - gameManager.getBet()));
+                // Wenn mehr als Einsatz gewonnen wurde
+            } else if ((gameResult.getProfit() - gameManager.getBet()) > 0) {
+                playSound("src/main/resources/sounds/Nice.mp3");
+                profitLabel.setText("+" + gameResult.getProfit());
+            }
+            balanceLabel.setText(gameResult.getNewBalance() + "");
             // Bet kann erst nach Spin Abfolge geändert werden
             decreaseBetBtn.setDisable(false);
             increaseBetBtn.setDisable(false);

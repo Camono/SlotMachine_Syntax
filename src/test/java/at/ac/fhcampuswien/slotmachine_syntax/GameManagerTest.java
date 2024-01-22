@@ -13,6 +13,7 @@ import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+
 class GameManagerTest {
 
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
@@ -73,9 +74,9 @@ class GameManagerTest {
             sumOfBalances += value;
         }
 
-        System.out.println("Gesamt Balance: " + sumOfBalances + "  |   Abzüglich Einsatz: " + (sumOfBalances-1000*START_CREDITS));
+        System.out.println("Gesamt Balance: " + sumOfBalances + "  |   Abzüglich Einsatz: " + (sumOfBalances - 1000 * START_CREDITS));
         System.out.println("Winner count: " + winners);
-        System.out.println("Average balance after 10000 games starting with 1000 credits: " + sumOfBalances/1000);
+        System.out.println("Average balance after 10000 games starting with 1000 credits: " + sumOfBalances / 1000);
         System.out.println("Min balance after 10000 games starting with 1000 credits:" + balances.get(0));
         System.out.println("Max balance after 10000 games starting with 1000 credits: " + balances.get(999));
         System.out.println("Median balance after 10000 games starting with 1000 credits: " + balances.get(500));
@@ -159,7 +160,7 @@ class GameManagerTest {
     }
 
     @Test
-    void testCreateWinningsAfterLose(){
+    void testCreateWinningsAfterLose() {
         //arrange
         List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_lose_symbols.json"));
 
@@ -167,11 +168,11 @@ class GameManagerTest {
         GameResult gameResult = manager.calculateWinnings(spinResult);
 
         //assert
-        assertNotSame(manager.getBalance(),gameResult.getNewBalance());
+        assertNotSame(manager.getBalance(), gameResult.getNewBalance());
     }
 
     @Test
-    void testCreateWinningsNotWild(){
+    void testCreateWinningsNotWild() {
         //arrange
         List<Symbol> spinResult = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/test_win_symbols.json"));
         double oldBalance = manager.getBalance();
@@ -180,6 +181,6 @@ class GameManagerTest {
         GameResult gameResult = manager.calculateWinnings(spinResult);
 
         //assert
-        assertEquals(gameResult.getNewBalance() - oldBalance + manager.getBet() ,gameResult.getProfit());
+        assertEquals(gameResult.getNewBalance() - oldBalance + manager.getBet(), gameResult.getProfit());
     }
 }

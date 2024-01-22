@@ -187,5 +187,7 @@ public class GameManager {
         return betRange.get(currentBetIndex);
     }
 
-    public double getBalance() { return balance; }
+    public double getBalance() {
+        return balance;
+    }
 }
