@@ -13,14 +13,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class GameManagerTest {
+class GameManagerTest {
 
     private final Integer SIMULATE_SPINS_AMOUNT = 10000;
     private final Integer RANDOM_DISTRIBUTION_QUANTITY = 500000;
     private final Integer START_CREDITS = 1000;
 
     @Test
-    public void testSingleSpin() {
+    void testSingleSpin() {
         GameManager manager = new GameManager(START_CREDITS);
         GameResult gameResult = manager.calculateWinnings(manager.createSpinResult());
         Symbol symbol1 = gameResult.getSymbols().get(0);
@@ -33,7 +33,7 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testMoneyReturn() {
+    void testMoneyReturn() {
         //simulating 1000 x 10000 (with 1 unit bet amount) spins
         List<GameResult> allGameResults = new ArrayList<>();
         for (int i = 0; i < 1000; i++) {
@@ -75,7 +75,7 @@ public class GameManagerTest {
     }
 
     @Test
-    public void testRandomDistribution() {
+    void testRandomDistribution() {
         List<Symbol> symbols = new ArrayList<>();
         GameManager manager = new GameManager(500);
 

@@ -11,8 +11,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class JsonDataLoader {
-    public static List<Symbol> getAllSymbolsFromJSON() {
-        InputStream is = JsonDataLoader.class.getResourceAsStream("/symbols.json");
+    public static List<Symbol> getAllSymbolsFromJSON(InputStream is) {
         if (is == null) {
             return Collections.emptyList();
         }
@@ -35,7 +34,6 @@ public class JsonDataLoader {
                 jsonSymbol.getDouble("multiplierX3"),
                 jsonSymbol.getDouble("multiplierX4"),
                 jsonSymbol.getDouble("multiplierX5"),
-                jsonSymbol.getBoolean("isWild"),
-                jsonSymbol.getBoolean("isFreeSpin"));
+                jsonSymbol.getBoolean("isWild"));
     }
 }

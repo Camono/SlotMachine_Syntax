@@ -18,9 +18,8 @@ public class Symbol {
     private final double multiplierX4;
     private final double multiplierX5;
     private final boolean isWild;
-    private final boolean isFreeSpin;
 
-    public Symbol(String imagePath, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild, boolean isFreeSpin) {
+    public Symbol(String imagePath, SymbolType symbolType, double appearChance, double multiplierX3, double multiplierX4, double multiplierX5, boolean isWild) {
         this.imagePath = imagePath;
         this.symbolType = symbolType;
         this.appearFactor = appearChance;
@@ -28,7 +27,6 @@ public class Symbol {
         this.multiplierX4 = multiplierX4;
         this.multiplierX5 = multiplierX5;
         this.isWild = isWild;
-        this.isFreeSpin = isFreeSpin;
     }
 
     public String getImagePath() {
@@ -59,13 +57,9 @@ public class Symbol {
         return isWild;
     }
 
-    public boolean isFreeSpin() {
-        return isFreeSpin;
-    }
-
     @Override
     public int hashCode() {
-        return Objects.hash(imagePath, symbolType, appearFactor, multiplierX3, multiplierX4, multiplierX5, isWild, isFreeSpin);
+        return Objects.hash(imagePath, symbolType, appearFactor, multiplierX3, multiplierX4, multiplierX5, isWild);
     }
 
     @Override

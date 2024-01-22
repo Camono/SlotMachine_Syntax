@@ -11,6 +11,5 @@ public enum SymbolType {
     MARLBORO,
     LUGNER,
     GIS,
-    FEATURE_SYMBOL,
     WILD
 }

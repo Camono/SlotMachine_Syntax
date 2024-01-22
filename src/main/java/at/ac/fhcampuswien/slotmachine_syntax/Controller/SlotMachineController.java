@@ -135,7 +135,7 @@ public class SlotMachineController {
                 profitLabel.setText("+" + gameResult.getProfit());
                 balanceLabel.setText(gameResult.getNewBalance() + "");
             // Game Over Popup
-            } else if (gameResult.getNewBalance() <= 950) {
+            } else if (gameResult.getNewBalance() < 1) {
                 try {
                     openGameOverPopup();
                 } catch (IOException ex) {

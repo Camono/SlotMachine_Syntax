@@ -26,7 +26,7 @@ public class GameManager {
         this.betRange = Arrays.asList(1, 2, 5, 10, 20, 50, 100);
         //10 Credits pro Spin
         this.currentBetIndex = 3;
-        allSymbols = JsonDataLoader.getAllSymbolsFromJSON();
+        allSymbols = JsonDataLoader.getAllSymbolsFromJSON(JsonDataLoader.class.getResourceAsStream("/symbols.json"));
     }
 
     public int decreaseBet() {

@@ -7,8 +7,7 @@
       "multiplierX3": 0.3,
       "multiplierX4": 1.0,
       "multiplierX5": 2.5,
-      "isWild": false,
-      "isFreeSpin": false
+      "isWild": false
     },
     {
       "symbolType": "U6",
@@ -17,8 +16,7 @@
       "multiplierX3": 0.3,
       "multiplierX4": 1.0,
       "multiplierX5": 2.5,
-      "isWild": false,
-      "isFreeSpin": false
+      "isWild": false
     },
     {
       "symbolType": "RED_BULL",
@@ -27,8 +25,7 @@
       "multiplierX3": 0.5,
       "multiplierX4": 2.5,
       "multiplierX5": 5.5,
-      "isWild": false,
-      "isFreeSpin": false
+      "isWild": false
     },
     {
       "symbolType": "MARLBORO",
@@ -37,8 +34,7 @@
       "multiplierX3": 0.5,
       "multiplierX4": 3.5,
       "multiplierX5": 7.0,
-      "isWild": false,
-      "isFreeSpin": false
+      "isWild": false
     },
     {
       "symbolType": "GIS",
@@ -47,8 +43,7 @@
       "multiplierX3": 1.5,
       "multiplierX4": 6.0,
       "multiplierX5": 15.3,
-      "isWild": false,
-      "isFreeSpin": false
+      "isWild": false
     },
     {
       "symbolType": "LUGNER",
@@ -57,18 +52,7 @@
       "multiplierX3": 5.0,
       "multiplierX4": 50.0,
       "multiplierX5": 100.0,
-      "isWild": false,
-      "isFreeSpin": false
-    },
-    {
-      "symbolType": "FEATURE_SYMBOL",
-      "imagePath": "/symbols/Seven.png",
-      "appearFactor": 0.0,
-      "multiplierX3": 0,
-      "multiplierX4": 0,
-      "multiplierX5": 0,
-      "isWild": false,
-      "isFreeSpin": true
+      "isWild": false
     },
     {
       "symbolType": "WILD",
@@ -77,8 +61,7 @@
       "multiplierX3": 0,
       "multiplierX4": 0,
       "multiplierX5": 0,
-      "isWild": true,
-      "isFreeSpin": false
+      "isWild": true
     }
   ]
 }
